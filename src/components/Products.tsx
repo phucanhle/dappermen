@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import Filter from "./Filter";
 import ProductCard from "./ProductCard";
+import Categories from "./Categories";
 
 export default function Products() {
     // State lưu lựa chọn filter, mặc định là "price-low-high"
@@ -62,18 +63,35 @@ export default function Products() {
         } else if (filter === "price-high-low") {
             sorted.sort((a, b) => b.price - a.price);
         } else if (filter === "date-newest") {
-            sorted.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
+            sorted.sort(
+                (a, b) =>
+                    new Date(b.releaseDate).getTime() -
+                    new Date(a.releaseDate).getTime()
+            );
         } else if (filter === "date-oldest") {
-            sorted.sort((a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime());
+            sorted.sort(
+                (a, b) =>
+                    new Date(a.releaseDate).getTime() -
+                    new Date(b.releaseDate).getTime()
+            );
         }
         return sorted;
     }, [filter, products]);
 
     return (
-        <div className="w-full max-w-[1440px] mx-auto p-2 flex flex-col items-center">
-            <h1 className="w-full text-center text-4xl font-bold mt-10">Products</h1>
-            <Filter currentFilter={filter} onFilterChange={handleFilterChange} />
-            <div className="flex justify-around flex-wrap gap-8 md:justify-start">
+        <div
+            id="products"
+            className="w-full max-w-[1440px] mx-auto p-2 flex flex-col items-center"
+        >
+            <h1 className="w-full text-center text-4xl font-bold mt-10">
+                Products
+            </h1>
+            <Categories />
+            <Filter
+                currentFilter={filter}
+                onFilterChange={handleFilterChange}
+            />
+            <div className="flex justify-around flex-wrap gap-8 md:justify-between">
                 {filteredProducts.map((product, index) => (
                     <ProductCard
                         key={index}
@@ -85,7 +103,9 @@ export default function Products() {
                     />
                 ))}
             </div>
-            <button className="my-10 p-2 w-full text-white text-xl bg-[#383838] cursor-pointer md:w-1/2">See more</button>
+            <button className="my-10 p-2 w-full text-white text-xl bg-[#383838] cursor-pointer md:w-1/2">
+                See more
+            </button>
         </div>
     );
 }
