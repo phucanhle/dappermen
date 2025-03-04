@@ -3,11 +3,26 @@ import Filter from "./Filter";
 import ProductCard from "./ProductCard";
 import Categories from "./Categories";
 
-export default function Products() {
-    // State lưu lựa chọn filter, mặc định là "price-low-high"
-    const [filter, setFilter] = useState("price-low-high");
+interface Product {
+    src: string;
+    alt: string;
+    name: string;
+    category: string;
+    price: number;
+    releaseDate: string;
+}
 
-    const products = [
+// type FilterType = "price-low-high" | "price-high-low" | "date-newest" | "date-oldest";
+
+export default function Products() {
+    // State cho lựa chọn filter và category
+    const [filter, setFilter] = useState<string>("price-low-high");
+    const [selectedCategory, setSelectedCategory] = useState<string>("All");
+
+    // Định nghĩa danh sách danh mục
+    const categories: string[] = ["All", "t-shirt", "sweater", "cardigan", "polo shirt"];
+
+    const products: Product[] = [
         {
             src: "/images/product1.png",
             alt: "Product 1",
@@ -50,47 +65,37 @@ export default function Products() {
         },
     ];
 
-    // Callback để nhận giá trị filter thay đổi từ Filter component
     const handleFilterChange = (newFilter: string) => {
         setFilter(newFilter);
     };
 
-    // Tính toán danh sách sản phẩm sau khi áp dụng bộ lọc
+    const handleCategoryChange = (newCategory: string) => {
+        setSelectedCategory(newCategory);
+    };
+
+    // Lọc sản phẩm theo danh mục và sắp xếp theo filter
     const filteredProducts = useMemo(() => {
-        const sorted = [...products];
+        let filtered =
+            selectedCategory === "All" ? [...products] : products.filter((product) => product.category === selectedCategory);
+
         if (filter === "price-low-high") {
-            sorted.sort((a, b) => a.price - b.price);
+            filtered.sort((a, b) => a.price - b.price);
         } else if (filter === "price-high-low") {
-            sorted.sort((a, b) => b.price - a.price);
+            filtered.sort((a, b) => b.price - a.price);
         } else if (filter === "date-newest") {
-            sorted.sort(
-                (a, b) =>
-                    new Date(b.releaseDate).getTime() -
-                    new Date(a.releaseDate).getTime()
-            );
+            filtered.sort((a, b) => new Date(b.releaseDate).getTime() - new Date(a.releaseDate).getTime());
         } else if (filter === "date-oldest") {
-            sorted.sort(
-                (a, b) =>
-                    new Date(a.releaseDate).getTime() -
-                    new Date(b.releaseDate).getTime()
-            );
+            filtered.sort((a, b) => new Date(a.releaseDate).getTime() - new Date(b.releaseDate).getTime());
         }
-        return sorted;
-    }, [filter, products]);
+        return filtered;
+    }, [filter, selectedCategory, products]);
 
     return (
-        <div
-            id="products"
-            className="w-full max-w-[1440px] mx-auto p-2 flex flex-col items-center"
-        >
-            <h1 className="w-full text-center text-4xl font-bold mt-10">
-                Products
-            </h1>
-            <Categories />
-            <Filter
-                currentFilter={filter}
-                onFilterChange={handleFilterChange}
-            />
+        <div id="products" className="w-full max-w-[1440px] mx-auto p-2 flex flex-col items-center">
+            <h1 className="w-full text-center text-4xl font-bold mt-10">Products</h1>
+            {/* Truyền mảng danh mục, giá trị category hiện tại và callback xuống Categories */}
+            <Categories categories={categories} currentCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
+            <Filter currentFilter={filter} onFilterChange={handleFilterChange} />
             <div className="flex justify-around flex-wrap gap-8 md:justify-between">
                 {filteredProducts.map((product, index) => (
                     <ProductCard
@@ -103,9 +108,7 @@ export default function Products() {
                     />
                 ))}
             </div>
-            <button className="my-10 p-2 w-full text-white text-xl bg-[#383838] cursor-pointer md:w-1/2">
-                See more
-            </button>
+            <button className="my-10 p-2 w-full text-white text-xl bg-[#383838] cursor-pointer md:w-1/2">See more</button>
         </div>
     );
 }
