@@ -75,7 +75,7 @@ export default function Products() {
 
     // Lọc sản phẩm theo danh mục và sắp xếp theo filter
     const filteredProducts = useMemo(() => {
-        let filtered =
+        const filtered =
             selectedCategory === "All" ? [...products] : products.filter((product) => product.category === selectedCategory);
 
         if (filter === "price-low-high") {
