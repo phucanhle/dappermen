@@ -7,7 +7,8 @@ import Logo from "./Logo";
 export default function Header() {
     const [openSearch, setOpenSearch] = useState(false);
     const searchRef = useRef<HTMLInputElement>(null);
-    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] =
+        useState(false);
 
     useEffect(() => {
         if (searchRef.current) {
@@ -45,14 +46,31 @@ export default function Header() {
     }, [openSearch]);
 
     return (
-        <header className="w-full h-20 bg-white border-b shadow-sm fixed z-50">
+        <header className="w-full h-20 bg-white border-b shadow-sm fixed top-0 z-50">
             <div className="max-w-[1440px] mx-auto h-full px-4 flex items-center justify-between">
                 <Logo />
 
                 {/* Mobile Hamburger */}
-                <button className="md:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                <button
+                    className="md:hidden p-2"
+                    onClick={() =>
+                        setIsMobileMenuOpen(
+                            !isMobileMenuOpen
+                        )
+                    }
+                >
+                    <svg
+                        className="w-6 h-6"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth={2}
+                        viewBox="0 0 24 24"
+                    >
+                        <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M4 6h16M4 12h16M4 18h16"
+                        />
                     </svg>
                 </button>
 
@@ -60,21 +78,10 @@ export default function Header() {
                 <ul className="hidden md:flex items-center gap-3">
                     {/* Search */}
                     <li className="flex items-center bg-[#EBEBEB] p-2 ">
-                        <button onClick={() => setOpenSearch(!openSearch)}>
-                            <svg
-                                className="w-6 h-6 text-gray-800"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                viewBox="0 0 24 24"
-                            >
-                                <path strokeLinecap="round" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
-                            </svg>
-                        </button>
-                        <input ref={searchRef} type="search" className="outline-none border-b bg-transparent" />
                         <button
-                            className={`transition-all ${openSearch ? "block mx-2" : "hidden"}`}
-                            onClick={() => setOpenSearch(false)}
+                            onClick={() =>
+                                setOpenSearch(!openSearch)
+                            }
                         >
                             <svg
                                 className="w-6 h-6 text-gray-800"
@@ -83,7 +90,39 @@ export default function Header() {
                                 strokeWidth={2}
                                 viewBox="0 0 24 24"
                             >
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />
+                                <path
+                                    strokeLinecap="round"
+                                    d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                                />
+                            </svg>
+                        </button>
+                        <input
+                            ref={searchRef}
+                            type="search"
+                            className="outline-none border-b bg-transparent"
+                        />
+                        <button
+                            className={`transition-all ${
+                                openSearch
+                                    ? "block mx-2"
+                                    : "hidden"
+                            }`}
+                            onClick={() =>
+                                setOpenSearch(false)
+                            }
+                        >
+                            <svg
+                                className="w-6 h-6 text-gray-800"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth={2}
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18 18 6M6 6l12 12"
+                                />
                             </svg>
                         </button>
                     </li>
@@ -156,9 +195,19 @@ export default function Header() {
                             <Link
                                 href="/favourites"
                                 className="flex items-center gap-4 py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
+                                onClick={() =>
+                                    setIsMobileMenuOpen(
+                                        false
+                                    )
+                                }
                             >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    viewBox="0 0 24 24"
+                                >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -174,9 +223,19 @@ export default function Header() {
                             <Link
                                 href="/cart"
                                 className="flex items-center gap-4 py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
+                                onClick={() =>
+                                    setIsMobileMenuOpen(
+                                        false
+                                    )
+                                }
                             >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    viewBox="0 0 24 24"
+                                >
                                     <path
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
@@ -192,9 +251,19 @@ export default function Header() {
                             <Link
                                 href="/login"
                                 className="flex items-center gap-4 py-2"
-                                onClick={() => setIsMobileMenuOpen(false)}
+                                onClick={() =>
+                                    setIsMobileMenuOpen(
+                                        false
+                                    )
+                                }
                             >
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    viewBox="0 0 24 24"
+                                >
                                     <path
                                         stroke="currentColor"
                                         strokeWidth="2"
@@ -207,9 +276,25 @@ export default function Header() {
 
                         {/* Search Toggle */}
                         <li className="relative w-full flex justify-start gap-4">
-                            <button onClick={() => setOpenSearch(!openSearch)} className="flex items-center gap-4">
-                                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z" />
+                            <button
+                                onClick={() =>
+                                    setOpenSearch(
+                                        !openSearch
+                                    )
+                                }
+                                className="flex items-center gap-4"
+                            >
+                                <svg
+                                    className="w-6 h-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    viewBox="0 0 24 24"
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
+                                    />
                                 </svg>
                             </button>
                             <input
