@@ -1,41 +1,61 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import Logo from "@/components/Logo";
 
 const LoginPage: React.FC = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isSignUp, setIsSignUp] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        if (isSignUp) {
-            // Handle sign-up logic here
-            console.log("Sign Up - Email:", email);
-            console.log("Sign Up - Password:", password);
-        } else {
-            // Handle login logic here
-            console.log("Login - Email:", email);
-            console.log("Login - Password:", password);
+        setLoading(true);
+
+        if (!email || !password) return;
+
+        try {
+            if (isSignUp) {
+                console.log("📝 Sign Up:", {
+                    email,
+                    password,
+                });
+                // TODO: Gọi API đăng ký ở đây
+            } else {
+                console.log("🔐 Login:", {
+                    email,
+                    password,
+                });
+                // TODO: Gọi API đăng nhập ở đây
+            }
+        } catch (error) {
+            console.error("❌ Error:", error);
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <div className="flex w-full h-screen">
-            <div className="relative w-full p-16 flex flex-col items-center justify-center gap-[50px] bg-white rounded shadow-md">
+        <div className="flex w-full relative justify-center items-center bg-[url(/Carousel3.jpg)] bg-cover  h-screen">
+            <div className="h-screen md:h-fit w-full max-w-md p-16 md:-mt-10 flex flex-col items-center justify-center bg-white gap-8">
+                <Logo />
                 <h2 className="text-2xl font-bold text-center">
-                    {isSignUp ? "Sign Up" : "Login"}
+                    {isSignUp
+                        ? "Create an account"
+                        : "Welcome back"}
                 </h2>
+
                 <form
                     onSubmit={handleSubmit}
-                    className="space-y-4 flex flex-col justify-center w-full max-w-[500px]"
+                    className="space-y-6 w-full max-w-sm"
                 >
                     <div>
                         <label
                             htmlFor="email"
                             className="block text-sm font-medium text-gray-700"
                         >
-                            Email:
+                            Email
                         </label>
                         <input
                             type="email"
@@ -45,15 +65,16 @@ const LoginPage: React.FC = () => {
                                 setEmail(e.target.value)
                             }
                             required
-                            className="w-full p-3 outline-none border mt-2"
+                            className="w-full p-3 mt-1 border border-gray-300 rounded"
                         />
                     </div>
+
                     <div>
                         <label
                             htmlFor="password"
-                            className="block text-sm font-medium text-gray-700 mt-5"
+                            className="block text-sm font-medium text-gray-700"
                         >
-                            Password:
+                            Password
                         </label>
                         <input
                             type="password"
@@ -63,41 +84,44 @@ const LoginPage: React.FC = () => {
                                 setPassword(e.target.value)
                             }
                             required
-                            className="w-full p-3 outline-none border mt-2"
+                            className="w-full p-3 mt-1 border border-gray-300 rounded"
                         />
                     </div>
+
                     <button
                         type="submit"
-                        className="w-full outline-none border mt-5 p-4 bg-[#383838] text-[#ebebeb] hover:bg-[#494949]"
+                        disabled={loading}
+                        className="w-full p-3 bg-black text-white hover:bg-gray-800 transition rounded cursor-pointer"
                     >
-                        {isSignUp ? "Sign Up" : "Login"}
+                        {loading
+                            ? "Processing..."
+                            : isSignUp
+                            ? "Sign Up"
+                            : "Login"}
                     </button>
                 </form>
-                <div className="text-center">
-                    <button
-                        onClick={() =>
-                            setIsSignUp(!isSignUp)
-                        }
-                        className="text-indigo-600 hover:underline"
-                    >
-                        {isSignUp
-                            ? "Already have an account? Login"
-                            : "Don't have an account? Sign Up"}
-                    </button>
-                </div>
-                <div className="flex gap-10">
-                    <button className="size-10 bg-amber-400"></button>
-                    <button className="size-10 bg-amber-400"></button>
-                    <button className="size-10 bg-amber-400"></button>
-                </div>
+
+                <button
+                    onClick={() =>
+                        setIsSignUp((prev) => !prev)
+                    }
+                    className="text-sm text-indigo-600 hover:underline cursor-pointer"
+                >
+                    {isSignUp
+                        ? "Already have an account? Login"
+                        : "Don't have an account? Sign up"}
+                </button>
+
+                <button className="w-full max-w-sm p-3 mt-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer hover:bg-gray-100 transition">
+                    <img
+                        width="24"
+                        height="24"
+                        src="https://img.icons8.com/color/48/google-logo.png"
+                        alt="google-logo"
+                    />
+                    <span>Login with Google</span>
+                </button>
             </div>
-            <Image
-                src="/Carousel1.jpg"
-                width={5000}
-                height={5000}
-                alt={"login"}
-                className="w-1/2 object-cover"
-            />
         </div>
     );
 };
