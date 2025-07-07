@@ -4,12 +4,19 @@ import gsap from "gsap";
 import Link from "next/link";
 import Logo from "./Logo";
 
+import { useCartStore } from "@/store/cartStore";
+
 export default function Header() {
     const [openSearch, setOpenSearch] = useState(false);
     const searchRef = useRef<HTMLInputElement>(null);
     const [isMobileMenuOpen, setIsMobileMenuOpen] =
         useState(false);
-
+    const totalItems = useCartStore((state) =>
+        state.items.reduce(
+            (acc, item) => acc + item.quantity,
+            0
+        )
+    );
     useEffect(() => {
         if (searchRef.current) {
             gsap.set(searchRef.current, {
@@ -147,7 +154,7 @@ export default function Header() {
                     </li>
 
                     {/* Cart */}
-                    <li className="bg-[#EBEBEB] p-2 ">
+                    <li className="bg-[#EBEBEB] p-2 relative">
                         <Link href="/cart">
                             <svg
                                 className="w-6 h-6 text-gray-800"
@@ -162,6 +169,9 @@ export default function Header() {
                                     d="M5 4h1.5L9 16h8m-8 0a2 2 0 100 4 2 2 0 000-4Zm8 0a2 2 0 100 4 2 2 0 000-4Zm-8.5-3h9.25L19 7H7.312"
                                 />
                             </svg>
+                            <span className="absolute top-0 right-0 bg-red-400 w-4 h-4 text-center rounded-full text-white text-xs">
+                                {totalItems}
+                            </span>
                         </Link>
                     </li>
 
