@@ -58,14 +58,21 @@ Dapper là một website thương mại điện tử về thời trang, xây d�
 ```
 constants/         # Dữ liệu tĩnh (footer, ...)
 public/            # Ảnh, favicon, logo, ...
+  images/          # Ảnh sản phẩm
+  size/            # Ảnh hướng dẫn chọn size
 src/
   app/             # Trang chính và các route
     cart/          # Trang giỏ hàng
     favourites/    # Trang yêu thích
     login/         # Trang đăng nhập
     products/      # Trang sản phẩm, chi tiết sản phẩm
+      details/     # Trang chi tiết sản phẩm động
+        [id]/      # Trang chi tiết theo id sản phẩm
   components/      # Các component giao diện
+  data/            # Dữ liệu mock (sản phẩm, ...)
+  store/           # Zustand store (giỏ hàng, ...)
   types/           # Định nghĩa TypeScript types
+  __tests__/       # Unit tests
 ```
 
 ## Đóng góp
