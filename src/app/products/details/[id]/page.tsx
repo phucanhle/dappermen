@@ -12,6 +12,10 @@ import { products } from "@/data/products";
 
 export default function ProductDetailPage() {
     const { id } = useParams();
+    const [selectedSize, setSelectedSize] =
+        useState<string>("M");
+    const [quantity, setQuantity] = useState(1);
+    const addItem = useCartStore((s) => s.addItem);
 
     const product = products.find(
         (p) => p.id === Number(id)
@@ -19,11 +23,6 @@ export default function ProductDetailPage() {
     if (!product) {
         return <p>Không tìm thấy sản phẩm.</p>;
     }
-
-    const [selectedSize, setSelectedSize] =
-        useState<string>("M");
-    const [quantity, setQuantity] = useState(1);
-    const addItem = useCartStore((s) => s.addItem);
 
     const handleIncrease = () => {
         setQuantity((prev) => prev + 1);
