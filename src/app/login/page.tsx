@@ -113,7 +113,7 @@ const LoginPage: React.FC = () => {
                 </button>
 
                 <button className="w-full max-w-sm p-3 mt-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer hover:bg-gray-100 transition">
-                    <img
+                    <Image
                         width="24"
                         height="24"
                         src="https://img.icons8.com/color/48/google-logo.png"
