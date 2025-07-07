@@ -7,9 +7,18 @@ import SizeGuide from "@/components/SizeGuide";
 import ProductCard from "@/components/ProductCard";
 import { useCartStore } from "@/store/cartStore";
 
+// mock data
+import { products } from "@/data/products";
+
 export default function ProductDetailPage() {
     const { id } = useParams();
-    const price = 200000;
+
+    const product = products.find(
+        (p) => p.id === Number(id)
+    );
+    if (!product) {
+        return <p>Không tìm thấy sản phẩm.</p>;
+    }
 
     const [selectedSize, setSelectedSize] =
         useState<string>("M");
@@ -27,10 +36,10 @@ export default function ProductDetailPage() {
 
     const handleAddToCart = () => {
         const item = {
-            id: Number(id),
-            name: "BASIC RELAXED-FIT COTTON T-SHIRT",
-            imageSrc: "/images/product1.png",
-            price,
+            id: product.id,
+            name: product.name,
+            imageSrc: product.imageSrc,
+            price: product.price,
             size: selectedSize,
             quantity,
         };
@@ -45,8 +54,8 @@ export default function ProductDetailPage() {
                 {/* Image */}
                 <div className=" items-center justify-center">
                     <Image
-                        src="/images/product1.png"
-                        alt="Product 1"
+                        src={product.imageSrc}
+                        alt={product.name}
                         width={320}
                         height={430}
                         className="object-cover"
@@ -59,10 +68,13 @@ export default function ProductDetailPage() {
                         Mã sản phẩm (ID): {id}
                     </p>
                     <h1 className="text-2xl font-bold mb-2">
-                        BASIC RELAXED-FIT COTTON T-SHIRT
+                        {product.name}
                     </h1>
                     <p className="text-xl text-gray-700 mb-2">
-                        {price.toLocaleString("vi-VN")} VND
+                        {product.price.toLocaleString(
+                            "vi-VN"
+                        )}{" "}
+                        VND
                     </p>
 
                     {/* size */}
@@ -125,9 +137,9 @@ export default function ProductDetailPage() {
                     {/* Total price */}
                     <p className="text-xl text-gray-700 mb-4">
                         TOTAL:{" "}
-                        {(quantity * price).toLocaleString(
-                            "vi-VN"
-                        )}{" "}
+                        {(
+                            quantity * product.price
+                        ).toLocaleString("vi-VN")}{" "}
                         VND
                     </p>
 
@@ -149,14 +161,15 @@ export default function ProductDetailPage() {
                 <div className="w-full">
                     <div className="flex flex-wrap gap-4 md:flex-nowrap">
                         <Image
-                            src="/images/product1.png"
-                            alt="Product 1"
+                            src={product.imageSrc}
+                            alt={product.name}
                             width={1300}
                             height={1300}
                             className="object-cover w-full max-w-2xl"
                         />
 
                         <p className="text-sm text-gray-700 leading-6 w-full md:w-1/2">
+                            {/* You can replace this with product.description if available */}
                             Relaxed fit. Cotton fabric.
                             Medium weight cotton fabric.
                             Relaxed fit: straight and
@@ -186,15 +199,15 @@ export default function ProductDetailPage() {
                     </div>
                     <div className="flex justify-between gap-4  mt-2 flex-wrap md:flex-nowrap">
                         <Image
-                            src="/images/product1.png"
-                            alt="Product 1"
+                            src={product.imageSrc}
+                            alt={product.name}
                             width={1300}
                             height={1300}
                             className="max-w-1/2"
                         />
                         <Image
-                            src="/images/product1.png"
-                            alt="Product 1"
+                            src={product.imageSrc}
+                            alt={product.name}
                             width={1300}
                             height={1300}
                             className=" max-w-1/2"
@@ -254,17 +267,38 @@ export default function ProductDetailPage() {
                         className="flex gap-4"
                         style={{ minWidth: "900px" }}
                     >
-                        <div className="flex-none w-[320px]">
-                            <ProductCard
-                                id={1}
-                                name="BASIC RELAXED-FIT COTTON T-SHIRT"
-                                price={200000}
-                                imageSrc="/images/product1.png"
-                                imageAlt="1"
-                                category="T-shirt"
-                                releaseDate="2024-07-05"
-                            />
-                        </div>
+                        {/* Example: show other products except current */}
+                        {products
+                            .filter(
+                                (p) => p.id !== product.id
+                            )
+                            .slice(0, 3)
+                            .map((related) => (
+                                <div
+                                    key={related.id}
+                                    className="flex-none w-[320px]"
+                                >
+                                    <ProductCard
+                                        id={related.id}
+                                        name={related.name}
+                                        price={
+                                            related.price
+                                        }
+                                        imageSrc={
+                                            related.imageSrc
+                                        }
+                                        imageAlt={
+                                            related.name
+                                        }
+                                        category={
+                                            related.category
+                                        }
+                                        releaseDate={
+                                            related.releaseDate
+                                        }
+                                    />
+                                </div>
+                            ))}
                     </div>
                 </div>
             </div>
