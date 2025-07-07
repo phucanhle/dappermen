@@ -116,7 +116,7 @@ const LoginPage: React.FC = () => {
                     <Image
                         width="24"
                         height="24"
-                        src="https://img.icons8.com/color/48/google-logo.png"
+                        src="/google-logo.png"
                         alt="google-logo"
                     />
                     <span>Login with Google</span>
