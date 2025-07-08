@@ -135,7 +135,7 @@ export default function Header() {
                     </li>
 
                     {/* Favourites */}
-                    <li className="bg-[#EBEBEB] p-2 ">
+                    <li className="bg-[#EBEBEB] p-2">
                         <Link href="/favourites">
                             <svg
                                 className="w-6 h-6 text-gray-800"
