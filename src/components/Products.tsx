@@ -15,7 +15,7 @@ export default function Products() {
     const handleCategoryChange = (newCategory: string) => setSelectedCategory(newCategory);
 
     const filterProducts = (products : Product[], filter: string, category: string) => {
-        let filtered = category === "All" ? [...products] : products.filter(product => product.category === category);
+        const filtered = category === "All" ? [...products] : products.filter(product => product.category === category);
 
         switch (filter) {
             case "price-low-high":
