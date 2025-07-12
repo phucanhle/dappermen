@@ -21,7 +21,7 @@ export default function Favourites() {
     return (
         <div className="w-full max-w-[1300px] mx-auto p-4">
             <Promotion />
-            <h1 className="text-2xl font-bold mb-4">
+            <h1 className="text-2xl font-bold mt-10 mb-4">
                 Favourites
             </h1>
 

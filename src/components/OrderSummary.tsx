@@ -20,7 +20,7 @@ export default function OrderSummary({
     return (
         <div className="border border-gray-300 p-4 h-fit max-w-[400px]">
             <h2 className="text-lg font-semibold mb-4">
-                ORDER SUMMARY
+                Order summary
             </h2>
 
             {/* Danh sách sản phẩm */}
@@ -63,7 +63,7 @@ export default function OrderSummary({
             </div>
 
             <button className="w-full bg-gray-800 text-white py-2 mt-4 hover:bg-gray-700 active:bg-gray-950 transition-colors cursor-pointer ">
-                CHECK OUT
+                Check out
             </button>
         </div>
     );

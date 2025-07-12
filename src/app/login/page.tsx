@@ -2,128 +2,150 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import Logo from "@/components/Logo";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { Field } from "@/components/UI/Field";
 
-const LoginPage: React.FC = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isSignUp, setIsSignUp] = useState(false);
-    const [loading, setLoading] = useState(false);
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [isSignUp, setIsSignUp] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (event: React.FormEvent) => {
-        event.preventDefault();
-        setLoading(true);
+  // Khởi tạo router
+  const router = useRouter();
 
-        if (!email || !password) return;
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
 
-        try {
-            if (isSignUp) {
-                console.log("📝 Sign Up:", {
-                    email,
-                    password,
-                });
-                // TODO: Gọi API đăng ký ở đây
-            } else {
-                console.log("🔐 Login:", {
-                    email,
-                    password,
-                });
-                // TODO: Gọi API đăng nhập ở đây
-            }
-        } catch (error) {
-            console.error("❌ Error:", error);
-        } finally {
-            setLoading(false);
+    const isValidEmail = (email: string) => /\S+@\S+\.\S+/.test(email);
+
+    if (!email || !password || !isValidEmail(email)) {
+      toast.error("Vui lòng nhập email hợp lệ và mật khẩu.");
+      setLoading(false);
+      return;
+    }
+
+    try {
+      if (isSignUp) {
+        if (isSignUp) {
+          const res = await fetch("/api/auth/register", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          if (res.ok) {
+            toast.success("Đăng ký thành công!");
+            setIsSignUp(false);
+            setEmail("");
+            setPassword("");
+          } else {
+            const data = await res.json();
+            toast.error(data.message || "Đăng ký thất bại");
+          }
+        } else {
+          const res = await signIn("credentials", {
+            email,
+            password,
+            redirect: false,
+          });
+
+          if (res?.ok) {
+            toast.success("Đăng nhập thành công");
+            router.push("/");
+          } else {
+            toast.error("Đăng nhập thất bại. Kiểm tra lại email/mật khẩu.");
+          }
         }
-    };
+      } else {
+        console.log("🔐 Login:", {
+          email,
+          password,
+        });
 
-    return (
-        <div className="flex w-full relative justify-center items-center bg-[url(/Carousel3.jpg)] bg-cover  h-screen">
-            <div className="h-screen md:h-fit w-full max-w-md p-16 md:-mt-10 flex flex-col items-center justify-center bg-white gap-8">
-                <Logo />
-                <h2 className="text-2xl font-bold text-center">
-                    {isSignUp
-                        ? "Create an account"
-                        : "Welcome back"}
-                </h2>
+        const res = await signIn("credentials", {
+          email,
+          password,
+          redirect: false, // không redirect tự động, để xử lý thủ công
+        });
+        console.log(res);
 
-                <form
-                    onSubmit={handleSubmit}
-                    className="space-y-6 w-full max-w-sm"
-                >
-                    <div>
-                        <label
-                            htmlFor="email"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Email
-                        </label>
-                        <input
-                            type="email"
-                            id="email"
-                            value={email}
-                            onChange={(e) =>
-                                setEmail(e.target.value)
-                            }
-                            required
-                            className="w-full p-3 mt-1 border border-gray-300 rounded"
-                        />
-                    </div>
+        if (res?.ok) {
+          router.push("/"); // hoặc trang chính sau khi đăng nhập
+        } else {
+          toast.error("Đăng nhập thất bại. Kiểm tra lại email/mật khẩu.");
+        }
+      }
+    } catch (error) {
+      toast.error("Có lỗi xảy ra.");
+      console.error("Error during authentication:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-                    <div>
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-medium text-gray-700"
-                        >
-                            Password
-                        </label>
-                        <input
-                            type="password"
-                            id="password"
-                            value={password}
-                            onChange={(e) =>
-                                setPassword(e.target.value)
-                            }
-                            required
-                            className="w-full p-3 mt-1 border border-gray-300 rounded"
-                        />
-                    </div>
+  return (
+    <div className="flex w-full relative justify-center items-center bg-[url(/Carousel3.jpg)] bg-cover  h-screen">
+      <div className="h-screen md:h-fit w-full max-w-md p-16 md:-mt-10 flex flex-col items-center justify-center bg-white gap-8">
+        <Logo />
+        <h2 className="text-2xl font-bold text-center">
+          {isSignUp ? "Create an account" : "Welcome back"}
+        </h2>
 
-                    <button
-                        type="submit"
-                        disabled={loading}
-                        className="w-full p-3 bg-black text-white hover:bg-gray-800 transition rounded cursor-pointer"
-                    >
-                        {loading
-                            ? "Processing..."
-                            : isSignUp
-                            ? "Sign Up"
-                            : "Login"}
-                    </button>
-                </form>
+        <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-sm">
+          <Field
+            label="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          {isSignUp && (
+            <Field
+              label="Name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          )}
+          <Field
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-                <button
-                    onClick={() =>
-                        setIsSignUp((prev) => !prev)
-                    }
-                    className="text-sm text-indigo-600 hover:underline cursor-pointer"
-                >
-                    {isSignUp
-                        ? "Already have an account? Login"
-                        : "Don't have an account? Sign up"}
-                </button>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full p-3 bg-black text-white hover:bg-gray-800 transition rounded cursor-pointer"
+          >
+            {loading ? "Processing..." : isSignUp ? "Sign Up" : "Login"}
+          </button>
+        </form>
 
-                <button className="w-full max-w-sm p-3 mt-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer hover:bg-gray-100 transition">
-                    <Image
-                        width="24"
-                        height="24"
-                        src="/google-logo.png"
-                        alt="google-logo"
-                    />
-                    <span>Login with Google</span>
-                </button>
-            </div>
-        </div>
-    );
-};
+        <button
+          onClick={() => setIsSignUp((prev) => !prev)}
+          className="text-sm text-indigo-600 hover:underline cursor-pointer"
+        >
+          {isSignUp
+            ? "Already have an account? Login"
+            : "Don't have an account? Sign up"}
+        </button>
 
-export default LoginPage;
+        <button className="w-full max-w-sm p-3 mt-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer hover:bg-gray-100 transition">
+          <Image
+            width="24"
+            height="24"
+            src="/google-logo.png"
+            alt="google-logo"
+          />
+          <span>Login with Google</span>
+        </button>
+      </div>
+    </div>
+  );
+}
