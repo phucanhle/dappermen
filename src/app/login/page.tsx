@@ -31,53 +31,33 @@ export default function LoginPage() {
 
     try {
       if (isSignUp) {
-        if (isSignUp) {
-          const res = await fetch("/api/auth/register", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, password }),
-          });
-
-          if (res.ok) {
-            toast.success("Đăng ký thành công!");
-            setIsSignUp(false);
-            setEmail("");
-            setPassword("");
-          } else {
-            const data = await res.json();
-            toast.error(data.message || "Đăng ký thất bại");
-          }
-        } else {
-          const res = await signIn("credentials", {
-            email,
-            password,
-            redirect: false,
-          });
-
-          if (res?.ok) {
-            toast.success("Đăng nhập thành công");
-            router.push("/");
-          } else {
-            toast.error("Đăng nhập thất bại. Kiểm tra lại email/mật khẩu.");
-          }
-        }
-      } else {
-        console.log("🔐 Login:", {
-          email,
-          password,
+        const res = await fetch("/api/auth/register", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password, name }),
         });
 
+        if (res.ok) {
+          toast.success("Đăng ký thành công!");
+          setIsSignUp(false);
+          setEmail("");
+          setPassword("");
+        } else {
+          const data = await res.json();
+          toast.error(data.message || "Đăng ký thất bại");
+        }
+      } else {
         const res = await signIn("credentials", {
           email,
           password,
-          redirect: false, // không redirect tự động, để xử lý thủ công
+          redirect: false,
         });
-        console.log(res);
 
         if (res?.ok) {
-          router.push("/"); // hoặc trang chính sau khi đăng nhập
+          toast.success("Đăng nhập thành công");
+          router.push("/");
         } else {
           toast.error("Đăng nhập thất bại. Kiểm tra lại email/mật khẩu.");
         }

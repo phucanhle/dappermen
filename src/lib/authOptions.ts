@@ -12,7 +12,10 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) return null;
+        if (!credentials?.email || !credentials?.password) {
+          console.warn("Missing credentials");
+          return null;
+        }
 
         const { data: user, error } = await supabase
           .from("users")
