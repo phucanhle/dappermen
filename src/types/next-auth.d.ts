@@ -1,6 +1,4 @@
 import { ShippingAddress } from "./ShippingAddress";
-// src/types/next-auth.d.ts
-import NextAuth from "next-auth";
 import ShippingAddress from "./ShippingAddress";
 
 declare module "next-auth" {

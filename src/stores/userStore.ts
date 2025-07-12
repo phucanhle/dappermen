@@ -1,5 +1,4 @@
 import { create } from "zustand";
-import { ShippingAddress } from "@/types/ShippingAddress";
 import { UserState } from "@/types/User";
 
 export const useUserStore = create<UserState>((set) => ({

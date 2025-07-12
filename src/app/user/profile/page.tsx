@@ -53,7 +53,7 @@ export default function UserProfilePage() {
     };
 
     fetchUser();
-  }, [session]);
+  }, [session, setUser, resetUser]);
 
   if (status === "loading" || loadingFetch)
     return (
