@@ -1,15 +1,21 @@
-export default function Title({ children }: { children: React.ReactNode }) {
-    return (
-        <h1 className="text-2xl font-semibold mb-6">
-            {children}
-        </h1>
-    );
+interface TitleProps {
+  children: React.ReactNode;
+  className?: string;
 }
 
-export function Subtitle({ children }: { children: React.ReactNode }) {
-    return (
-        <h2 className="text-xl font-semibold mb-4">
-            {children}
-        </h2>
-    );
+export function Title({ children, className = "" }: TitleProps) {
+  return (
+    <h1 className={`text-2xl font-semibold my-6 ${className}`}>{children}</h1>
+  );
+}
+
+interface SubtitleProps {
+  children: React.ReactNode;
+  className?: string;
+}
+
+export function Subtitle({ children, className = "" }: SubtitleProps) {
+  return (
+    <h2 className={`text-xl font-semibold my-6 ${className}`}>{children}</h2>
+  );
 }

@@ -4,7 +4,7 @@ import { useEffect, useState, FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 
-import Title, { Subtitle } from "@/components/UI/Title";
+import { Title, Subtitle } from "@/components/UI/Title";
 import { Button, ButtonSecond } from "@/components/UI/Button";
 import SelectAddress from "@/components/SelectAddress";
 import { FieldSelect } from "@/components/UI/Field";
