@@ -1,5 +1,5 @@
 "use client";
-
+import Link from "next/link";
 import { useEffect, useState, FormEvent } from "react";
 import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
@@ -10,6 +10,7 @@ import SelectAddress from "@/components/SelectAddress";
 import { FieldSelect } from "@/components/UI/Field";
 import { LoadingSpin } from "@/components/UI/Loading";
 import { useUserStore } from "@/stores/userStore";
+import Logo from "@/components/Logo";
 
 const SIZE_OPTIONS = ["XS", "S", "M", "L", "XL", "XXL"];
 
@@ -59,10 +60,24 @@ export default function UserProfilePage() {
     return (
       <div className="max-w-3xl mx-auto min-h-screen mt-10 p-6">
         <LoadingSpin />
+        <p className="text-center text-gray-500">Loading ...</p>
       </div>
     );
-  if (loadingFetch && !session)
-    return <p>Bạn cần đăng nhập để xem trang này.</p>;
+
+  if (status === "unauthenticated")
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center">
+        <Logo />
+        <Title>Unauthorized</Title>
+        <p>
+          You need to be logged in to view this page. Please{" "}
+          <Link href="/login" className="underline hover:text-blue-800">
+            log in
+          </Link>{" "}
+          first.
+        </p>
+      </div>
+    );
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

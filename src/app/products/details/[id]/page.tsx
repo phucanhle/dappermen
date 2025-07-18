@@ -1,56 +1,87 @@
 "use client";
+
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiFillStar } from "react-icons/ai";
 import SizeGuide from "@/components/SizeGuide";
 import ProductCard from "@/components/ProductCard";
 import { useCartStore } from "@/stores/cartStore";
+import { toast } from "react-hot-toast";
+import { LoadingSpin } from "@/components/UI/Loading";
+import Product from "@/types/Products";
 
-// mock data
-import { products } from "@/data/products";
+const Imagebucket = process.env.NEXT_PUBLIC_IMAGE_BUCKET;
 
 export default function ProductDetailPage() {
   const { id } = useParams();
   const [selectedSize, setSelectedSize] = useState<string>("M");
   const [quantity, setQuantity] = useState(1);
+  const [product, setProduct] = useState<Product>();
+  const [relatedProducts, setRelatedProducts] = useState([]);
   const addItem = useCartStore((s) => s.addItem);
 
-  const product = products.find((p) => p.id === Number(id));
-  if (!product) {
-    return <p>Không tìm thấy sản phẩm.</p>;
-  }
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await fetch(`/api/products/${id}`);
+        if (!res.ok) throw new Error("Không tìm thấy sản phẩm!");
+        const data = await res.json();
+        setProduct(data);
+      } catch (error) {
+        toast.error("Không tìm thấy sản phẩm!");
+        console.error(error);
+      }
+    };
 
-  const handleIncrease = () => {
-    setQuantity((prev) => prev + 1);
-  };
-  const handleDecrease = () => {
-    if (quantity > 1) {
-      setQuantity((prev) => prev - 1);
+    const fetchRelated = async () => {
+      const res = await fetch(`/api/products/related/${id}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      setRelatedProducts(data);
+    };
+
+    if (id) {
+      fetchRelated();
+      fetchProduct();
     }
-  };
+  }, [id]);
+
+  if (!product)
+    return (
+      <div className="max-w-screen-xl min-h-screen mx-auto px-4 py-8">
+        <LoadingSpin />
+        <p className="text-center text-gray-500">Loading ...</p>
+      </div>
+    );
+
+  const imageUrl = product.image_src
+    ? `${Imagebucket}/${product.image_src}`
+    : "/placeholder.png";
+  const handleIncrease = () => setQuantity((prev) => prev + 1);
+  const handleDecrease = () => quantity > 1 && setQuantity((prev) => prev - 1);
 
   const handleAddToCart = () => {
     const item = {
       id: product.id,
       name: product.name,
-      imageSrc: product.imageSrc,
+      image_src: product.image_src,
       price: product.price,
       size: selectedSize,
       quantity,
     };
 
     addItem(item);
-    alert("🛒 Đã thêm vào giỏ hàng!");
+    toast.success("🛒 Đã thêm vào giỏ hàng!");
   };
 
   return (
-    <div className="max-w-[1130px] mx-auto px-4 py-8 flex flex-col gap-10">
+    <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col gap-10">
       <div className="flex flex-wrap w-full justify-around gap-10 md:justify-between">
         {/* Image */}
         <div className=" items-center justify-center">
           <Image
-            src={product.imageSrc}
+            src={imageUrl}
             alt={product.name}
             width={320}
             height={430}
@@ -66,7 +97,7 @@ export default function ProductDetailPage() {
             {product.price.toLocaleString("vi-VN")} VND
           </p>
 
-          {/* size */}
+          {/* Size */}
           <div className="mb-4">
             <h3 className="font-semibold mb-2">Size:</h3>
             <div className="flex gap-2">
@@ -92,14 +123,14 @@ export default function ProductDetailPage() {
             <div className="flex items-center gap-2">
               <button
                 onClick={handleDecrease}
-                className="px-3 py-1 border bg-white cursor-pointer "
+                className="px-3 py-1 border bg-white cursor-pointer"
               >
                 -
               </button>
               <span className="px-3">{quantity}</span>
               <button
                 onClick={handleIncrease}
-                className="px-3 py-1 border bg-white cursor-pointer "
+                className="px-3 py-1 border bg-white cursor-pointer"
               >
                 +
               </button>
@@ -127,53 +158,39 @@ export default function ProductDetailPage() {
         <div className="w-full">
           <div className="flex flex-wrap gap-4 md:flex-nowrap">
             <Image
-              src={product.imageSrc}
+              src={imageUrl}
               alt={product.name}
               width={1300}
               height={1300}
               className="object-cover w-full max-w-2xl"
             />
-
             <p className="text-sm text-gray-700 leading-6 w-full md:w-1/2">
-              {/* You can replace this with product.description if available */}
-              Relaxed fit. Cotton fabric. Medium weight cotton fabric. Relaxed
-              fit: straight and loose-fitting silhouette for comfort . Medium
-              weight cotton, between 145 and 165 g/m2, providing flexibility and
-              strength.. Rounded neck. Short sleeve. The model is wearing a size
-              M. Basics Collection. The model is 183 cm and is wearing a size M.
-              Antoine Griezmann Campaign.Relaxed fit. Cotton fabric. Medium
-              weight cotton fabric. Relaxed fit: straight and loose-fitting
-              silhouette for comfort . Medium weight cotton, between 145 and 165
-              g/m2, providing flexibility and strength.. Rounded neck. Short
-              sleeve. The model is wearing a size M. Basics Collection. The
-              model is 183 cm and is wearing a size M. Antoine Griezmann
-              Campaign.
+              {product.description || "Relaxed fit. Cotton fabric..."}
             </p>
           </div>
-          <div className="flex justify-between gap-4  mt-2 flex-wrap md:flex-nowrap">
+          <div className="flex justify-between gap-4 mt-2 flex-wrap md:flex-nowrap">
             <Image
-              src={product.imageSrc}
+              src={imageUrl}
               alt={product.name}
               width={1300}
               height={1300}
               className="max-w-1/2"
             />
             <Image
-              src={product.imageSrc}
+              src={imageUrl}
               alt={product.name}
               width={1300}
               height={1300}
-              className=" max-w-1/2"
+              className="max-w-1/2"
             />
           </div>
         </div>
         <SizeGuide />
       </div>
+
       {/* Reviews */}
       <div className="bg-[#ebebeb] p-10 py-5">
         <h2 className="text-lg font-bold mb-4">Customer Reviews</h2>
-
-        {/* Review 1 */}
         <div className="mb-4">
           <div className="flex items-center gap-2">
             <span className="font-semibold">Ryan</span>
@@ -188,7 +205,6 @@ export default function ProductDetailPage() {
           </p>
         </div>
 
-        {/* Review 2 */}
         <div>
           <div className="flex items-center gap-2">
             <span className="font-semibold">Adam</span>
@@ -208,25 +224,23 @@ export default function ProductDetailPage() {
       <div className="bg-[#ebebeb] p-10 py-5">
         <h2 className="text-lg font-bold mb-4">Related products</h2>
         <div className="overflow-x-auto">
-          <div className="flex gap-4" style={{ minWidth: "900px" }}>
-            {/* Example: show other products except current */}
-            {products
-              .filter((p) => p.id !== product.id)
-              .slice(0, 3)
-              .map((related) => (
+          {relatedProducts.length > 0 && (
+            <div className="flex gap-4" style={{ minWidth: "900px" }}>
+              {relatedProducts.map((related: Product) => (
                 <div key={related.id} className="flex-none w-[320px]">
                   <ProductCard
                     id={related.id}
                     name={related.name}
                     price={related.price}
-                    imageSrc={related.imageSrc}
-                    imageAlt={related.name}
+                    image_src={related.image_src}
+                    image_alt={related.name}
                     category={related.category}
-                    releaseDate={related.releaseDate}
+                    release_date={related.release_date}
                   />
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -65,7 +65,7 @@ export default function Header() {
 
   return (
     <header className="w-full h-20 bg-white border-b shadow-sm fixed top-0 z-50">
-      <div className="max-w-[1440px] mx-auto h-full px-4 flex items-center justify-between">
+      <div className="max-w-screen-xl mx-auto h-full px-4 flex items-center justify-between">
         <Logo />
 
         {/* Mobile Hamburger */}
