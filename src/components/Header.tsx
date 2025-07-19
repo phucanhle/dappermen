@@ -1,54 +1,22 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import gsap from "gsap";
+import { useState, useRef } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "./Logo";
 import { useCartStore } from "@/stores/cartStore";
 import UserMenu from "./UserMenu";
+import SearchBar from "./SearchBar";
 
 export default function Header() {
   const [openSearch, setOpenSearch] = useState(false);
-  const searchRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const searchRef = useRef<HTMLInputElement>(null);
+  const router = useRouter();
+
   const totalItems = useCartStore((state) =>
     state.items.reduce((acc, item) => acc + item.quantity, 0)
   );
-
-  useEffect(() => {
-    if (searchRef.current) {
-      gsap.set(searchRef.current, {
-        width: "0px",
-        marginLeft: "0px",
-        marginRight: "0px",
-      });
-    }
-  }, []);
-
-  useEffect(() => {
-    if (searchRef.current) {
-      if (openSearch) {
-        gsap.to(searchRef.current, {
-          width: "200px",
-          marginLeft: "1rem",
-          marginRight: "1rem",
-          duration: 0.3,
-          ease: "power1.out",
-          onComplete: () => {
-            searchRef.current?.focus(); // 👈 Focus sau khi animation xong
-          },
-        });
-      } else {
-        gsap.to(searchRef.current, {
-          width: "0px",
-          marginLeft: "0px",
-          marginRight: "0px",
-          duration: 0.3,
-          ease: "power1.in",
-        });
-      }
-    }
-  }, [openSearch]);
 
   const handleSearching = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
@@ -56,11 +24,9 @@ export default function Header() {
 
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Search query:", query);
-    if (query) {
-      window.location.href = `/search?query=${encodeURIComponent(query)}`;
+    if (query.trim()) {
+      router.push(`/search?query=${encodeURIComponent(query)}`);
     }
-    setOpenSearch(false);
   };
 
   return (
@@ -68,7 +34,6 @@ export default function Header() {
       <div className="max-w-screen-xl mx-auto h-full px-4 flex items-center justify-between">
         <Logo />
 
-        {/* Mobile Hamburger */}
         <button
           className="md:hidden p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -88,53 +53,18 @@ export default function Header() {
           </svg>
         </button>
 
-        {/* Main Nav (Desktop) */}
         <ul className="hidden md:flex items-center gap-3">
           {/* Search */}
-          <li className="flex items-center bg-[#EBEBEB] p-2 ">
-            <button onClick={() => setOpenSearch(true)}>
-              <svg
-                className="w-6 h-6 text-gray-800"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                />
-              </svg>
-            </button>
-            <input
-              ref={searchRef}
-              value={query}
-              className="outline-none border-b bg-transparent"
+          <li className="flex items-center bg-[#EBEBEB] p-2">
+            <SearchBar
+              open={openSearch}
+              query={query}
               onChange={handleSearching}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleSearchSubmit(e);
-              }}
+              onSubmit={handleSearchSubmit}
+              onClose={() => setOpenSearch(false)}
+              onOpen={() => setOpenSearch(true)} // chạy được nè
+              inputRef={searchRef}
             />
-            <button
-              className={`transition-all ${
-                openSearch ? "block mx-2" : "hidden"
-              }`}
-              onClick={handleSearchSubmit}
-            >
-              <svg
-                className="w-6 h-6 text-gray-800"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth={2}
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M6 18 18 6M6 6l12 12"
-                />
-              </svg>
-            </button>
           </li>
 
           {/* Favourites */}
@@ -180,110 +110,40 @@ export default function Header() {
             </Link>
           </li>
 
-          {/* Login */}
           <UserMenu />
         </ul>
       </div>
 
-      {/* Mobile Menu (nếu muốn mở rộng sau) */}
+      {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="relative md:hidden px-8 py-4 bg-white w-screen  h-screen">
+        <div className="relative md:hidden px-8 py-4 bg-white w-screen h-screen">
           <ul className="flex flex-col gap-4 text-gray-800 w-full">
-            {/* Favourites */}
             <li>
               <Link
                 href="/favourites"
-                className="flex items-center gap-4 py-2"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                  />
-                </svg>
-                Favourites
+                ❤️ Favourites
               </Link>
             </li>
-
-            {/* Cart */}
             <li>
-              <Link
-                href="/cart"
-                className="flex items-center gap-4 py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M5 4h1.5L9 16h8m-8 0a2 2 0 100 4 2 2 0 000-4Zm8 0a2 2 0 100 4 2 2 0 000-4Zm-8.5-3h9.25L19 7H7.312"
-                  />
-                </svg>
-                Cart
+              <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)}>
+                🛒 Cart
               </Link>
             </li>
-
-            {/* Login */}
             <li>
-              <Link
-                href="/login"
-                className="flex items-center gap-4 py-2"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
-                  />
-                </svg>
-                Login
+              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                🔐 Login
               </Link>
             </li>
-
-            {/* Search Toggle */}
-            <li className="relative w-full flex justify-start gap-4">
-              <button
-                onClick={() => setOpenSearch(!openSearch)}
-                className="flex items-center gap-4"
-              >
-                <svg
-                  className="w-6 h-6"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth={2}
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    d="m21 21-3.5-3.5M17 10a7 7 0 1 1-14 0 7 7 0 0 1 14 0Z"
-                  />
-                </svg>
-              </button>
+            <li className="w-full flex items-center gap-2">
               <input
                 type="text"
                 placeholder="Search"
-                className="w-full ring-0 outline-0 py-2 border border-transparent focus:border-b-gray-900"
+                value={query}
+                onChange={handleSearching}
+                onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit(e)}
+                className="w-full py-2 border-b focus:outline-none"
               />
             </li>
           </ul>
