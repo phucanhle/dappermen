@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -28,20 +30,20 @@ export default function ProductCard({
 
   return (
     <div
-      className="relative w-full max-w-[370px] aspect-[3/4] md:max-w-[320px] shadow-xl transition-all duration-300"
+      className="relative w-full max-w-[420px] aspect-[3/4] md:max-w-[320px] shadow-xl transition-all duration-300"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
       {/* Ảnh sản phẩm */}
       <Image
         src={imageUrl}
-        width={320}
+        width={370}
         height={430}
         alt={
           `${image_alt} release in ${release_date}` ||
           "Product image not available"
         }
-        className={`w-full h-full object-cover transition-all duration-300 ${
+        className={`w-full object-cover transition-all duration-300 ${
           hovered ? "blur-sm" : ""
         }`}
       />
