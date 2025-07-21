@@ -1,4 +1,4 @@
-import Product from "@/types/Products";
+import Product, { ProductSize } from "@/types/Products";
 
 type FetchOptions = {
   offset?: number;
@@ -33,5 +33,21 @@ export async function fetchProducts({
   } catch (error) {
     console.error("Error in fetchProducts:", error);
     return [];
+  }
+}
+
+export async function getProductSizes(
+  productId: number
+): Promise<ProductSize[]> {
+  try {
+    const res = await fetch(`/api/products/${productId}/sizes`);
+    const json = await res.json();
+
+    if (!json.success) throw new Error("Failed to fetch sizes");
+
+    return json.data;
+  } catch (error) {
+    console.error("Error fetching product sizes:", error);
+    throw error;
   }
 }

@@ -8,3 +8,8 @@ export default interface Product {
   release_date: string; // YYYY-MM-DD
   description?: string;
 }
+
+export type ProductSize = {
+  size: string;
+  stock: number;
+};
