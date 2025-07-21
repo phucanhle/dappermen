@@ -21,14 +21,12 @@ export default function UserHistoriesPage() {
 
   const [histories, setHistories] = useState<OrderHistory[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!session) return;
 
     async function fetchHistories() {
       setLoading(true);
-      setError(null);
 
       try {
         const res = await fetch("/api/user/histories");
@@ -37,7 +35,7 @@ export default function UserHistoriesPage() {
         const data = await res.json();
         setHistories(data.histories || []);
       } catch (err) {
-        setError((err as Error).message);
+        console.error("Error fetching histories:", err);
       } finally {
         setLoading(false);
       }
