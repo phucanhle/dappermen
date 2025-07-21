@@ -46,7 +46,7 @@ export default function SearchPageClient() {
 
   return (
     <div className="min-h-screen p-4 max-w-[1440px] mx-auto">
-      <Title>Search results for &quot;{query}&quot;</Title>
+      <Title className="px-4">Search results for &quot;{query}&quot;</Title>
 
       <ProductFilter
         currentCategory={category}

@@ -2,12 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import { Title } from "@/components/UI/Title";
 
 interface OrderHistory {
   id: string;
-  date: string;       // ISO string
+  date: string;
   status: string;
-  total: number;      // Tổng tiền
+  total: number;
   items: Array<{
     name: string;
     quantity: number;
@@ -54,14 +55,13 @@ export default function UserHistoriesPage() {
   }
 
   return (
-    <div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded shadow">
-      <h1 className="text-2xl font-bold mb-6">Lịch sử đơn hàng</h1>
+    <div className="max-w-screen-xl mx-auto mt-10 p-4 bg-white rounded">
+      <Title>Lịch sử đơn hàng</Title>
 
       {loading && <p>Đang tải...</p>}
-      {error && <p className="text-red-600">{error}</p>}
 
       {!loading && histories.length === 0 && (
-        <p>Bạn chưa có đơn hàng nào.</p>
+        <p className="text-gray-600">Bạn chưa có đơn hàng nào.</p>
       )}
 
       <ul className="space-y-4">
@@ -94,7 +94,12 @@ export default function UserHistoriesPage() {
                   <span>
                     {item.name} x{item.quantity}
                   </span>
-                  <span>{item.price.toLocaleString("vi-VN", { style: "currency", currency: "VND" })}</span>
+                  <span>
+                    {item.price.toLocaleString("vi-VN", {
+                      style: "currency",
+                      currency: "VND",
+                    })}
+                  </span>
                 </li>
               ))}
             </ul>
