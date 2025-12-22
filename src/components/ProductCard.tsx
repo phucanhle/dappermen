@@ -37,8 +37,7 @@ export default function ProductCard({
       {/* Ảnh sản phẩm */}
       <Image
         src={imageUrl}
-        width={370}
-        height={420}
+        fill
         alt={
           `${image_alt} release in ${release_date}` ||
           "Product image not available"
@@ -46,6 +45,8 @@ export default function ProductCard({
         className={`w-full object-cover transition-all duration-300 ${
           hovered ? "blur-sm" : ""
         }`}
+        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+        loading="eager"
       />
 
       {/* Nút xem chi tiết */}

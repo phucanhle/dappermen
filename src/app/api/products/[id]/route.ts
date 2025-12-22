@@ -5,7 +5,7 @@ export async function GET(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params; // await là bắt buộc
+  const { id } = await params; 
   const idNum = parseInt(id, 10);
 
   if (Number.isNaN(idNum)) {

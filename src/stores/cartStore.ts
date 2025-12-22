@@ -5,8 +5,8 @@ import { cartItem } from "@/types/CartItem";
 type CartStore = {
   items: cartItem[];
   addItem: (item: cartItem) => void;
-  removeItem: (id: number) => void;
-  updateQuantity: (id: number, qty: number) => void;
+  removeItem: (id: number, size: string) => void;
+  updateQuantity: (id: number, size: string, qty: number) => void;
   clearCart: () => void;
 };
 
@@ -17,6 +17,7 @@ export const useCartStore = create<CartStore>()(
       getTotalQuantity: () => {
         return get().items.reduce((acc, item) => acc + item.quantity, 0);
       },
+
       addItem: (item) => {
         const existingIndex = get().items.findIndex(
           (i) => i.id === item.id && i.size === item.size
@@ -31,16 +32,20 @@ export const useCartStore = create<CartStore>()(
         }
       },
 
-      removeItem: (id) => {
+      removeItem: (id, size) => {
         set({
-          items: get().items.filter((item) => item.id !== id),
+          items: get().items.filter(
+            (item) => !(item.id === id && item.size === size)
+          ),
         });
       },
 
-      updateQuantity: (id, qty) => {
+      updateQuantity: (id, size, qty) => {
         set({
           items: get().items.map((item) =>
-            item.id === id ? { ...item, quantity: qty } : item
+            item.id === id && item.size === size
+              ? { ...item, quantity: qty }
+              : item
           ),
         });
       },

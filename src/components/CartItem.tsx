@@ -2,6 +2,8 @@
 import Image from "next/image";
 import { cartItem } from "@/types/CartItem";
 import Link from "next/link";
+import { getProductSizeQty } from "@/services/productService";
+import { useEffect, useState } from "react";
 
 const Imagebucket = process.env.NEXT_PUBLIC_IMAGE_BUCKET;
 
@@ -19,6 +21,22 @@ export default function CartItem({
     ? `${Imagebucket}/${image_src}`
     : "/placeholder.png";
 
+  const [maxStock, setMaxStock] = useState<number>(1);
+
+  useEffect(() => {
+    const getStock = async () => {
+      try {
+        const qty = await getProductSizeQty(id, size);
+        console.log("Max stock for product", id, "size", size, "is", qty);
+        setMaxStock(qty);
+      } catch (error) {
+        console.error("Failed to fetch max stock:", error);
+      }
+    };
+
+    getStock();
+  }, [id, size]);
+
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-end justify-between border border-gray-300 p-4 w-full ">
       <div className="flex items-start sm:items-center">
@@ -28,6 +46,7 @@ export default function CartItem({
           width={250}
           height={250}
           className="w-64 h-64 object-cover mr-4"
+          loading="eager"
         />
         <div className="flex flex-col h-64 items-start justify-start">
           <Link
@@ -49,18 +68,20 @@ export default function CartItem({
             <label htmlFor={`quantity-${id}`} className="text-sm text-gray-700">
               Quantity:
             </label>
-            <select
-              id={`quantity-${id}`}
-              className="border border-gray-300 px-2 py-1 cursor-pointer "
+            <input
+              type="number"
+              min={1}
+              max={maxStock}
               value={quantity}
+              className="w-20 border border-gray-300 px-2 py-1 text-center"
               onChange={(e) => onQuantityChange?.(Number(e.target.value))}
-            >
-              {Array.from({ length: 10 }, (_, i) => i + 1).map((val) => (
-                <option key={val} value={val}>
-                  {val}
-                </option>
-              ))}
-            </select>
+              onBlur={() => {
+                let val = quantity;
+                if (val < 1) val = 1;
+                if (val > maxStock) val = maxStock;
+                onQuantityChange?.(val);
+              }}
+            />
           </div>
         </div>
       </div>

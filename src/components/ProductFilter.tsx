@@ -46,7 +46,7 @@ export default function ProductFilter({
   };
 
   return (
-    <div className="w-full max-w-screen-xl px-4 mx-auto text-center">
+    <div className="w-full max-w-7xl px-4 mx-auto text-center">
       <Categories
         categories={categories}
         currentCategory={selectedCategory}

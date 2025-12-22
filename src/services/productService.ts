@@ -51,3 +51,21 @@ export async function getProductSizes(
     throw error;
   }
 }
+
+export async function getProductSizeQty(
+  productId: number,
+  size: string
+): Promise<number> {
+  try {
+    const res = await fetch(`/api/products/${productId}/sizes`);
+    const json = await res.json();
+
+    if (!json.success) throw new Error("Failed to fetch sizes");
+
+    const qty = json.data.find((s: ProductSize) => s.size === size);
+    return qty.stock;
+  } catch (error) {
+    console.error("Error fetching product sizes:", error);
+    throw error;
+  }
+}

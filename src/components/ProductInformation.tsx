@@ -47,6 +47,7 @@ export default function ProductInformation({ product }: { product: Product }) {
 
     setIsAdding(true);
 
+    // Gọi API thêm vào giỏ hàng ở đây thay cho time out
     setTimeout(() => {
       addItem({
         id: product.id,

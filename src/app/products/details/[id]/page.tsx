@@ -30,14 +30,14 @@ export default function ProductDetailPage() {
 
   if (loading || !product)
     return (
-      <div className="max-w-screen-xl min-h-screen mx-auto px-4 py-8">
+      <div className="max-w-7xl min-h-screen mx-auto px-4 py-8">
         <LoadingSpin />
         <p className="text-center text-gray-500">Loading...</p>
       </div>
     );
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-8 flex flex-col gap-6">
+    <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
       {/* Product Image & Info */}
       <div className="flex flex-wrap w-full justify-around gap-4 md:gap-10 md:justify-between">
         <div className="flex items-center justify-center">
@@ -46,10 +46,11 @@ export default function ProductDetailPage() {
             alt={product.name}
             width={320}
             height={430}
-            className="w-screen md:w-auto md:h-full object-cover border border-gray-200"
+            className="w-screen md:w-full object-cover border border-gray-200"
             onError={(e) => {
               (e.target as HTMLImageElement).src = "/placeholder.png";
             }}
+            loading="eager"
           />
         </div>
         <ProductInformation product={product} />

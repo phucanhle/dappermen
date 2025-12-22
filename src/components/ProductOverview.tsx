@@ -20,6 +20,7 @@ export default function ProductOverview({ product }: { product: Product }) {
             width={1300}
             height={1300}
             className="object-cover w-full max-w-2xl"
+            loading="eager"
           />
           <p className="text-sm text-gray-700 leading-6 w-full md:w-1/2">
             {product.description || "Relaxed fit. Cotton fabric..."}
@@ -32,6 +33,7 @@ export default function ProductOverview({ product }: { product: Product }) {
             width={1300}
             height={1300}
             className="max-w-1/2"
+            loading="eager"
           />
           <Image
             src={imageUrl}
@@ -39,6 +41,7 @@ export default function ProductOverview({ product }: { product: Product }) {
             width={1300}
             height={1300}
             className="max-w-1/2"
+            loading="eager"
           />
         </div>
       </div>
