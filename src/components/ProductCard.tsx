@@ -30,7 +30,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="relative w-full max-w-[420px] aspect-[3/4] md:max-w-[320px] shadow-xl transition-all duration-300"
+      className="relative w-full max-w-105 aspect-3/4 md:max-w-[320px] shadow-xl transition-transform duration-300"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
@@ -38,7 +38,7 @@ export default function ProductCard({
       <Image
         src={imageUrl}
         width={370}
-        height={430}
+        height={420}
         alt={
           `${image_alt} release in ${release_date}` ||
           "Product image not available"
@@ -56,7 +56,7 @@ export default function ProductCard({
       >
         <Link
           href={`/products/details/${id}`}
-          className="flex justify-center items-center w-[220px] p-2.5 text-[#ebebeb] bg-[#383838] hover:brightness-110"
+          className="flex justify-center items-center w-55 p-2.5 text-[#ebebeb] bg-[#383838] hover:brightness-110"
           onClick={() => setIsLoading(true)}
           aria-label="See more details"
         >
@@ -88,7 +88,7 @@ export default function ProductCard({
 
       {/* Overlay thông tin */}
       <div
-        className={`absolute bottom-0 w-full overflow-hidden transition-all duration-300 bg-gradient-to-t p-4 ${
+        className={`absolute bottom-0 w-full overflow-hidden transition-all duration-300 bg-linear-to-t p-4 ${
           hovered
             ? "h-1/2 from-white/80 to-transparent bg-white/85"
             : "h-[25%] from-black/80 to-transparent"
@@ -96,7 +96,7 @@ export default function ProductCard({
       >
         {/* Tên sản phẩm */}
         <h2
-          className={`text-lg font-bold capitalize text-left transition-colors duration-300 line-clamp-1 break-words ${
+          className={`text-lg font-bold capitalize text-left transition-colors duration-300 line-clamp-1 wrap-break-word ${
             hovered ? "text-[#383838]" : "text-[#ebebeb]"
           }`}
         >
@@ -140,7 +140,7 @@ export default function ProductCard({
               </button>
               {/* Nút Add to cart */}
               <button
-                className="flex-1 min-w-[140px] h-10 text-sm md:text-base text-[#ebebeb] bg-[#383838] shadow hover:brightness-110 transition-all"
+                className="flex-1 min-w-35 h-10 text-sm md:text-base text-[#ebebeb] bg-[#383838] shadow hover:brightness-110 transition-all"
                 aria-label="Add to cart"
               >
                 Add to cart

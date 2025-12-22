@@ -36,7 +36,8 @@ export default function Carousels() {
   if (images.length === 0) return <p>No images</p>;
 
   return (
-    <section className="relative max-h-[550px] mx-auto max-w-screen-xl overflow-hidden">
+   <section className="relative w-full aspect-1440/700 max-w-7xl mx-auto overflow-hidden">
+
       {/* Hình ảnh hiển thị */}
       <div
         className="relative w-full flex transition-transform duration-500 ease-in-out "

@@ -6,7 +6,7 @@ interface TitleProps {
 export function Title({ children, className = "" }: TitleProps) {
   return (
     <h1
-      className={`text-2xl max-w-screen-xl mx-auto font-semibold my-6 ${className}`}
+      className={`text-2xl line-clamp-1 max-w-7xl mx-auto font-semibold my-6 ${className}`}
     >
       {children}
     </h1>
@@ -20,6 +20,6 @@ interface SubtitleProps {
 
 export function Subtitle({ children, className = "" }: SubtitleProps) {
   return (
-    <h2 className={`text-xl font-semibold my-6 ${className}`}>{children}</h2>
+    <h2 className={`text-xl font-semibold line-clamp-1 my-6 ${className}`}>{children}</h2>
   );
 }
