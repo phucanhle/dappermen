@@ -56,7 +56,7 @@ export default function Products({
   return (
     <div
       className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 
-                 gap-x-4 gap-y-8 px-4 max-w-7xl mx-auto min-h-200"
+                 gap-8 px-4 w-screen md:max-w-7xl mx-auto min-h-200"
     >
       {filteredProducts.map((product) => (
         <ProductCard key={product.id} {...product} />

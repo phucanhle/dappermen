@@ -30,7 +30,7 @@ export default function ProductCard({
 
   return (
     <div
-      className="relative w-full max-w-105 aspect-3/4 md:max-w-[320px] shadow-xl transition-transform duration-300"
+      className="relative w-full aspect-3/4 sm:max-w-[320px] md:max-w-68 shadow-xl transition-transform duration-300"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
