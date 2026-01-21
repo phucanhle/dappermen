@@ -6,6 +6,7 @@ import Logo from "./Logo";
 import { useCartStore } from "@/stores/cartStore";
 import UserMenu from "./UserMenu";
 import SearchBar from "./SearchBar";
+import MobileMenu from "./MobileMenu";
 
 export default function Header() {
   const [openSearch, setOpenSearch] = useState(false);
@@ -31,7 +32,7 @@ export default function Header() {
 
   return (
     <header className="w-full h-20 bg-white border-b shadow-sm fixed top-0 z-50">
-      <div className="max-w-screen-xl mx-auto h-full px-4 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         <Logo />
 
         <button
@@ -115,40 +116,13 @@ export default function Header() {
       </div>
 
       {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="relative md:hidden px-8 py-4 bg-white w-screen h-screen">
-          <ul className="flex flex-col gap-4 text-gray-800 w-full">
-            <li>
-              <Link
-                href="/favourites"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                ❤️ Favourites
-              </Link>
-            </li>
-            <li>
-              <Link href="/cart" onClick={() => setIsMobileMenuOpen(false)}>
-                🛒 Cart
-              </Link>
-            </li>
-            <li>
-              <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                🔐 Login
-              </Link>
-            </li>
-            <li className="w-full flex items-center gap-2">
-              <input
-                type="text"
-                placeholder="Search"
-                value={query}
-                onChange={handleSearching}
-                onKeyDown={(e) => e.key === "Enter" && handleSearchSubmit(e)}
-                className="w-full py-2 border-b focus:outline-none"
-              />
-            </li>
-          </ul>
-        </div>
-      )}
+      {isMobileMenuOpen &&
+        MobileMenu(
+          query,
+          handleSearching,
+          handleSearchSubmit,
+          setIsMobileMenuOpen
+        )}
     </header>
   );
 }
