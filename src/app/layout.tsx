@@ -18,6 +18,12 @@ export default function RootLayout({
 }) {
   return (
     <html lang="vi">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="MbNVbhibHqsrUNickpH4Pa7-wtDkn7rxX9JwdCuA-tA"
+        />
+      </head>
       <body>
         <AuthProvider>
           <Header />
