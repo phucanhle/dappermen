@@ -1,14 +1,17 @@
 // src/components/OrderSummary.tsx
 import { cartItem } from "@/types/CartItem";
+import Link from "next/link";
 
 type Props = {
     items: cartItem[]; // 👈 mảng sản phẩm giỏ hàng
     delivery?: number; // 👈 optional, mặc định = 0
+    hideCheckoutButton?: boolean;
 };
 
 export default function OrderSummary({
     items,
     delivery = 0,
+    hideCheckoutButton = false,
 }: Props) {
     const subtotal = items.reduce(
         (acc, item) => acc + item.price * item.quantity,
@@ -62,9 +65,14 @@ export default function OrderSummary({
                 <p>{total.toLocaleString()} VND</p>
             </div>
 
-            <button className="w-full bg-gray-800 text-white py-2 mt-4 hover:bg-gray-700 active:bg-gray-950 transition-colors cursor-pointer ">
-                Check out
-            </button>
+            {!hideCheckoutButton && (
+                <Link
+                    href="/checkout"
+                    className="block w-full bg-gray-800 text-white py-2 mt-4 hover:bg-gray-700 active:bg-gray-950 transition-colors text-center cursor-pointer"
+                >
+                    Check out
+                </Link>
+            )}
         </div>
     );
 }

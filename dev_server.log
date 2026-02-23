@@ -1,0 +1,22 @@
+
+> dappermen@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 1142ms
+○ Compiling /checkout ...
+ GET /checkout 200 in 5.1s (compile: 4.2s, render: 933ms)
+[next-auth][warn][NEXTAUTH_URL]
+https://next-auth.js.org/warnings#nextauth_url
+[next-auth][warn][NO_SECRET]
+https://next-auth.js.org/warnings#no_secret
+ GET /api/auth/session 200 in 4.0s (compile: 3.9s, render: 54ms)
+ GET /checkout 200 in 141ms (compile: 6ms, render: 136ms)
+ GET /api/auth/session 200 in 43ms (compile: 28ms, render: 15ms)
+ GET /checkout 200 in 117ms (compile: 4ms, render: 113ms)
+ GET /api/auth/session 200 in 37ms (compile: 26ms, render: 11ms)
+[?25h
