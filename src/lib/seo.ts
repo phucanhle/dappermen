@@ -4,12 +4,12 @@ export const siteMetadata: Metadata = {
   metadataBase: new URL("https://dappermen.vercel.app"),
 
   title: {
-    default: "Shop for Men - Thời trang nam cao cấp",
-    template: "%s | Shop for Men",
+    default: "Dappermen | Thời trang nam cao cấp & Lookbook",
+    template: "%s | Dappermen",
   },
 
   description:
-    "Khám phá bộ sưu tập thời trang nam cao cấp tại Shop for Men. Mua sắm áo sơ mi, quần jeans, giày da, phụ kiện chính hãng và đa dạng mẫu mã với giá tốt nhất.",
+    "Khám phá bộ sưu tập thời trang nam thiết kế cao cấp và lookbook nam lịch lãm tại Dappermen. Mua sắm áo sơ mi, quần tây âu, giày da và phụ kiện nam cao cấp tại Hà Nội & TPHCM.",
 
   icons: {
     icon: "/favicon.ico",
@@ -22,23 +22,32 @@ export const siteMetadata: Metadata = {
   },
 
   keywords: [
-    "thời trang nam",
-    "quần áo nam cao cấp",
+    "dappermen",
+    "dappermen shop",
+    "thời trang nam dappermen",
+    "thời trang nam cao cấp",
+    "thời trang nam thiết kế",
+    "thời trang nam hà nội",
+    "thời trang nam tphcm",
+    "shop quần áo nam cao cấp hà nội",
+    "quần áo nam thiết kế sài gòn",
+    "lookbook thời trang nam",
+    "áo sơ mi nam cao cấp",
+    "quần tây nam đẹp",
     "giày nam chính hãng",
-    "phụ kiện nam",
-    "mua sắm thời trang nam trực tuyến",
+    "phụ kiện nam luxury",
   ],
 
   openGraph: {
     type: "website",
     url: "https://dappermen.vercel.app/",
-    siteName: "Shop for Men",
+    siteName: "Dappermen",
     images: [
       {
         url: "/logo.png",
         width: 1200,
         height: 630,
-        alt: "Shop for Men - Thời trang nam cao cấp",
+        alt: "Dappermen - Thời trang nam cao cấp",
       },
     ],
   },
