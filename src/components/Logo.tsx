@@ -9,11 +9,11 @@ export default function Logo() {
             className="height-fit"
         >
             <Image
-                className="h-16 w-16"
+                className="h-12 w-12"
                 src="/logo.png"
                 alt="Dapper Men Logo"
-                width={100}
-                height={100}
+                width={48}
+                height={48}
                 priority
             />
         </Link>

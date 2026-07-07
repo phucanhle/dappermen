@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
-import { supabase } from "@/lib/supabaseClient";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { runtimeUsers } from "@/data/mockData";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -23,7 +24,20 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Missing data" }, { status: 400 });
   }
 
-  const { error } = await supabase
+  if (!isSupabaseConfigured) {
+    const user = runtimeUsers.find((u) => u.id === userId);
+    if (!user) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+    user.name = name;
+    (user as any).preferred_size = size || null;
+    (user as any).shipping_address = shippingAddress
+      ? JSON.stringify(shippingAddress)
+      : null;
+    return NextResponse.json({ message: "User updated successfully" });
+  }
+
+  const { error } = await supabaseAdmin
     .from("users")
     .update({
       name,

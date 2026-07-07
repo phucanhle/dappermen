@@ -1,3 +1,4 @@
+// src/app/products/details/[id]/page.tsx
 "use client";
 
 import { useParams } from "next/navigation";
@@ -13,52 +14,61 @@ import ProductReviews from "@/components/ProductReviews";
 import ProductOverview from "@/components/ProductOverview";
 import ProductRelated from "@/components/ProductRelate";
 import ProductInformation from "@/components/ProductInformation";
+import { getProductImageUrl } from "@/lib/imageHelper";
 
-// Constants
-const ImageBucket = process.env.NEXT_PUBLIC_IMAGE_BUCKET || "";
-
-// Main Component
 export default function ProductDetailPage() {
   const { id } = useParams();
   const { product, relatedProducts, loading } = useProductDetails(id);
 
   const imageUrl = useMemo(() => {
-    if (product?.image_src?.length)
-      return `${ImageBucket}/${product.image_src}`;
+    if (product?.image_src?.length) {
+      return getProductImageUrl(product.image_src);
+    }
     return "/placeholder.png";
   }, [product]);
 
   if (loading || !product)
     return (
-      <div className="max-w-7xl min-h-screen mx-auto px-4 py-8">
+      <div className="max-w-7xl min-h-screen mx-auto px-4 py-16 flex flex-col justify-center items-center">
         <LoadingSpin />
-        <p className="text-center text-gray-500">Loading...</p>
+        <p className="text-center text-neutral-400 font-sans text-sm mt-3 animate-pulse">
+          Loading collection details...
+        </p>
       </div>
     );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 flex flex-col gap-6">
-      {/* Product Image & Info */}
-      <div className="flex flex-wrap w-full justify-around gap-4 md:gap-10 md:justify-between">
-        <div className="flex items-center justify-center">
+    <div className="max-w-7xl mx-auto px-4 py-12 flex flex-col gap-10">
+      {/* Editorial Split Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 items-center">
+        {/* Left Aspect Ratio Editorial Image Card */}
+        <div className="md:col-span-6 w-full flex justify-center bg-white border border-[#EAE7E2]/50 rounded-2xl overflow-hidden shadow-xs relative aspect-[3/4] max-h-[560px]">
           <Image
             src={imageUrl}
             alt={product.name}
-            width={320}
-            height={430}
-            className="w-screen md:w-full object-cover border border-gray-200"
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            className="object-cover animate-fade-in"
             onError={(e) => {
               (e.target as HTMLImageElement).src = "/placeholder.png";
             }}
-            loading="eager"
+            priority
           />
         </div>
-        <ProductInformation product={product} />
+        
+        {/* Right Info Section */}
+        <div className="md:col-span-6 flex flex-col justify-center">
+          <ProductInformation product={product} />
+        </div>
       </div>
 
-      {/* Other Sections */}
+      {/* Details Specifications Sheet */}
       <ProductOverview product={product} />
+
+      {/* Reviews Feedback */}
       <ProductReviews />
+
+      {/* Related curated items */}
       <ProductRelated relatedProducts={relatedProducts} />
     </div>
   );

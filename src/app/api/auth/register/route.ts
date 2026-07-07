@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { hash } from "bcryptjs";
-import { supabase } from "@/lib/supabaseClient";
+import { supabaseAdmin, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { runtimeUsers } from "@/data/mockData";
 
 export async function POST(request: Request) {
   const { email, password, name } = await request.json();
@@ -9,8 +10,28 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "Missing fields" }, { status: 400 });
   }
 
+  // Hash the password before storing
+  const hashedPassword = await hash(password, 12);
+
+  if (!isSupabaseConfigured) {
+    const existingUser = runtimeUsers.find((u) => u.email === email);
+    if (existingUser) {
+      return NextResponse.json({ error: "User already exists" }, { status: 400 });
+    }
+    runtimeUsers.push({
+      id: (runtimeUsers.length + 1).toString(),
+      email,
+      password: hashedPassword,
+      name,
+    });
+    return NextResponse.json(
+      { message: "User registered successfully" },
+      { status: 201 }
+    );
+  }
+
   // Check if the user already exists
-  const { data: existingUser, error: fetchError } = await supabase
+  const { data: existingUser, error: fetchError } = await supabaseAdmin
     .from("users")
     .select("id")
     .eq("email", email)
@@ -18,6 +39,7 @@ export async function POST(request: Request) {
 
   // Return error if there's a database issue (excluding "not found" case)
   if (fetchError && fetchError.code !== "PGRST116") {
+    console.error("Database user query error:", fetchError);
     return NextResponse.json({ error: "Database error" }, { status: 500 });
   }
 
@@ -25,11 +47,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "User already exists" }, { status: 400 });
   }
 
-  // Hash the password before storing
-  const hashedPassword = await hash(password, 12);
-
   // Insert the new user into the database
-  const { error: insertError } = await supabase.from("users").insert([
+  const { error: insertError } = await supabaseAdmin.from("users").insert([
     {
       email,
       password: hashedPassword,
@@ -38,6 +57,7 @@ export async function POST(request: Request) {
   ]);
 
   if (insertError) {
+    console.error("Supabase user insert failed:", insertError);
     return NextResponse.json(
       { error: "Failed to create user" },
       { status: 500 }

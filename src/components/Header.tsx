@@ -31,16 +31,17 @@ export default function Header() {
   };
 
   return (
-    <header className="w-full h-20 bg-white border-b shadow-sm fixed top-0 z-50">
+    <header className="w-full h-16 bg-white/80 backdrop-blur-md border-b border-neutral-200/50 shadow-sm fixed top-0 z-50 transition-all duration-300">
       <div className="max-w-7xl mx-auto h-full px-4 flex items-center justify-between">
         <Logo />
 
         <button
-          className="md:hidden p-2"
+          className="md:hidden p-2 rounded-full hover:bg-neutral-100 transition-colors"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          aria-label="Toggle menu"
         >
           <svg
-            className="w-6 h-6"
+            className="w-6 h-6 text-neutral-800"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
@@ -54,28 +55,32 @@ export default function Header() {
           </svg>
         </button>
 
-        <ul className="hidden md:flex items-center gap-3">
+        <ul className="hidden md:flex items-center gap-4">
           {/* Search */}
-          <li className="flex items-center bg-[#EBEBEB] p-2">
+          <li className="flex items-center bg-neutral-100/80 hover:bg-neutral-100 border border-neutral-200/40 rounded-full px-3 py-1.5 transition-all duration-300 focus-within:bg-white focus-within:border-neutral-300/80">
             <SearchBar
               open={openSearch}
               query={query}
               onChange={handleSearching}
               onSubmit={handleSearchSubmit}
               onClose={() => setOpenSearch(false)}
-              onOpen={() => setOpenSearch(true)} // chạy được nè
+              onOpen={() => setOpenSearch(true)}
               inputRef={searchRef}
             />
           </li>
 
           {/* Favourites */}
-          <li className="bg-[#EBEBEB] p-2">
-            <Link href="/favourites">
+          <li>
+            <Link 
+              href="/favourites" 
+              className="block p-2.5 rounded-full hover:bg-neutral-100 text-neutral-700 hover:text-neutral-900 transition-all duration-200"
+              aria-label="Favourites"
+            >
               <svg
-                className="w-6 h-6 text-gray-800"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth={1.75}
                 viewBox="0 0 24 24"
               >
                 <path
@@ -88,13 +93,17 @@ export default function Header() {
           </li>
 
           {/* Cart */}
-          <li className="bg-[#EBEBEB] p-2 relative">
-            <Link href="/cart">
+          <li className="relative">
+            <Link 
+              href="/cart" 
+              className="block p-2.5 rounded-full hover:bg-neutral-100 text-neutral-700 hover:text-neutral-900 transition-all duration-200"
+              aria-label="Shopping Cart"
+            >
               <svg
-                className="w-6 h-6 text-gray-800"
+                className="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
-                strokeWidth={2}
+                strokeWidth={1.75}
                 viewBox="0 0 24 24"
               >
                 <path
@@ -104,7 +113,7 @@ export default function Header() {
                 />
               </svg>
               {totalItems > 0 && (
-                <span className="absolute top-0 right-0 bg-red-400 w-4 h-4 text-center rounded-full text-white text-xs">
+                <span className="absolute -top-0.5 -right-0.5 bg-neutral-900 min-w-5 h-5 flex items-center justify-center rounded-full text-white text-[10px] font-bold px-1.5 border border-white transition-all scale-100 hover:scale-110">
                   {totalItems}
                 </span>
               )}

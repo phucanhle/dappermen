@@ -14,7 +14,7 @@ export function Button ({
     return (
         <button
             onClick={onClick}
-            className={`px-4 py-1 bg-green-100 text-green-900 border border-green-500 rounded cursor-pointer ${className}`}
+            className={`px-6 py-2 bg-neutral-950 text-white font-sans font-semibold text-xs md:text-sm tracking-widest uppercase hover:bg-neutral-800 disabled:opacity-50 transition-all duration-200 rounded-lg cursor-pointer ${className}`}
             disabled={disabled}
             type={type}
         >
@@ -40,7 +40,7 @@ export function ButtonSecond ({
         <button
             onClick={onClick}
             type={type}
-            className={`px-4 py-1 bg-gray-100 text-gray-700 border border-gray-300 rounded hover:bg-red-100 hover:border-red-300 hover:text-red-500 cursor-pointer ${className}`}
+            className={`px-6 py-2 bg-white text-neutral-800 font-sans font-semibold text-xs md:text-sm tracking-widest uppercase border border-neutral-200 hover:border-neutral-400 hover:text-black disabled:opacity-50 transition-all duration-200 rounded-lg cursor-pointer ${className}`}
             disabled={disabled}
         >
             {children}

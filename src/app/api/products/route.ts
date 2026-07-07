@@ -1,7 +1,8 @@
 // src/app/api/products/route.ts
 
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { mockProducts } from "@/data/mockData";
 
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
@@ -11,6 +12,58 @@ export async function GET(req: NextRequest) {
   const category = searchParams.get("category");
   const sort = searchParams.get("sort");
   const search = searchParams.get("search");
+
+  if (!isSupabaseConfigured) {
+    let filtered = [...mockProducts];
+
+    // Lọc theo category
+    if (category && category !== "All") {
+      filtered = filtered.filter(
+        (p) => p.category.toLowerCase() === category.toLowerCase()
+      );
+    }
+
+    // Tìm kiếm tên
+    if (search) {
+      filtered = filtered.filter((p) =>
+        p.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
+    // Sắp xếp
+    switch (sort) {
+      case "price-low-high":
+        filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high-low":
+        filtered.sort((a, b) => b.price - a.price);
+        break;
+      case "date-oldest":
+        filtered.sort(
+          (a, b) =>
+            new Date(a.release_date).getTime() -
+            new Date(b.release_date).getTime()
+        );
+        break;
+      case "date-newest":
+      default:
+        filtered.sort(
+          (a, b) =>
+            new Date(b.release_date).getTime() -
+            new Date(a.release_date).getTime()
+        );
+        break;
+    }
+
+    const count = filtered.length;
+    const paginated = filtered.slice(offset, offset + limit);
+
+    return NextResponse.json({
+      data: paginated,
+      total: count,
+      hasMore: offset + limit < count,
+    });
+  }
 
   let query = supabase
     .from("products")

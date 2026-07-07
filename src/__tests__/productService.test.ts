@@ -13,8 +13,8 @@ describe("getProductSizeQty", () => {
       json: async () => ({
         success: true,
         data: [
-          { size: "S", quantity: 5 },
-          { size: "M", quantity: 10 },
+          { size: "S", stock: 5 },
+          { size: "M", stock: 10 },
         ],
       }),
     });
@@ -22,21 +22,21 @@ describe("getProductSizeQty", () => {
     const result = await getProductSizeQty(1, "M");
 
     expect(fetch).toHaveBeenCalledWith("/api/products/1/sizes");
-    expect(result).toEqual({ size: "M", quantity: 10 });
+    expect(result).toEqual(10);
   });
 
   // Size not found in the mocked API response
-  it("returns undefined if size not found", async () => {
+  it("returns 0 if size not found", async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       json: async () => ({
         success: true,
-        data: [{ size: "S", quantity: 5 }],
+        data: [{ size: "S", stock: 5 }],
       }),
     });
 
     const result = await getProductSizeQty(1, "XL");
 
-    expect(result).toBeUndefined();
+    expect(result).toEqual(0);
   });
 
   // API returns success: false

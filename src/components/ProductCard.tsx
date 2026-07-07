@@ -4,23 +4,22 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import product from "@/types/Products";
+import { useCartStore } from "@/stores/cartStore";
+import { useFavouritesStore } from "@/stores/favouritesStore";
+import toast from "react-hot-toast";
 
-export default function ProductCard({
-  id,
-  image_src,
-  image_alt,
-  name,
-  category,
-  price,
-  release_date,
-}: product) {
+import { getProductImageUrl } from "@/lib/imageHelper";
+
+export default function ProductCard(props: product) {
+  const { id, image_src, image_alt, name, category, price, release_date } = props;
   const [hovered, setHovered] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const Imagebucket = process.env.NEXT_PUBLIC_IMAGE_BUCKET;
+  
+  const addItem = useCartStore((state) => state.addItem);
+  const { toggleFavourite, isFavourite } = useFavouritesStore();
+  const isFav = isFavourite(id);
 
-  const imageUrl = image_src
-    ? `${Imagebucket}/${image_src}`
-    : "/placeholder.png";
+  const imageUrl = getProductImageUrl(image_src);
 
   const numberToVnd = (price: number) =>
     new Intl.NumberFormat("vi-VN", {
@@ -28,42 +27,65 @@ export default function ProductCard({
       currency: "VND",
     }).format(price);
 
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    addItem({
+      id,
+      image_src: image_src || "",
+      name,
+      price,
+      size: "M", // Default size on grid add
+      quantity: 1,
+    });
+    toast.success(`Added "${name}" (Size M) to cart!`);
+  };
+
+  const handleToggleFav = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    toggleFavourite(props);
+    toast.success(isFav ? "Removed from Favourites" : "Added to Favourites");
+  };
+
   return (
     <div
-      className="relative w-full aspect-3/4 sm:max-w-[320px] md:max-w-68 shadow-xl transition-transform duration-300"
+      className="group relative w-full aspect-3/4 sm:max-w-[320px] md:max-w-68 rounded-xl overflow-hidden shadow-sm hover:shadow-premium bg-white border border-neutral-100 transition-all duration-500"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >
-      {/* Ảnh sản phẩm */}
-      <Image
-        src={imageUrl}
-        fill
-        alt={
-          `${image_alt} release in ${release_date}` ||
-          "Product image not available"
-        }
-        className={`w-full object-cover transition-all duration-300 ${
-          hovered ? "blur-sm" : ""
-        }`}
-        sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
-        loading="eager"
-      />
+      {/* Product Image Link */}
+      <Link href={`/products/details/${id}`} className="block relative w-full h-full">
+        <Image
+          src={imageUrl}
+          fill
+          alt={
+            `${image_alt} released in ${release_date}` ||
+            "Product image not available"
+          }
+          className={`w-full object-cover transition-transform duration-700 ease-out ${
+            hovered ? "scale-105" : "scale-100"
+          }`}
+          sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+          priority={id <= 4}
+        />
+      </Link>
 
-      {/* Nút xem chi tiết */}
+      {/* Quick Details Overlay */}
       <div
-        className={`absolute top-1/4 w-full flex justify-center items-center text-center transition-opacity duration-300 ${
-          hovered ? "opacity-100" : "opacity-0"
+        className={`absolute top-1/3 left-0 right-0 flex justify-center items-center text-center transition-all duration-300 pointer-events-none ${
+          hovered ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4"
         }`}
       >
         <Link
           href={`/products/details/${id}`}
-          className="flex justify-center items-center w-55 p-2.5 text-[#ebebeb] bg-[#383838] hover:brightness-110"
+          className="pointer-events-auto flex justify-center items-center px-6 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase text-white bg-neutral-900/90 hover:bg-neutral-900 shadow-md backdrop-blur-xs transition-colors"
           onClick={() => setIsLoading(true)}
           aria-label="See more details"
         >
           {isLoading && (
             <svg
-              className="mr-3 w-5 h-5 animate-spin text-white"
+              className="mr-2 w-4 h-4 animate-spin text-white"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -83,22 +105,22 @@ export default function ProductCard({
               />
             </svg>
           )}
-          See more
+          Quick View
         </Link>
       </div>
 
-      {/* Overlay thông tin */}
+      {/* Info Overlay Panel */}
       <div
-        className={`absolute bottom-0 w-full overflow-hidden transition-all duration-300 bg-linear-to-t p-4 ${
+        className={`absolute bottom-0 w-full overflow-hidden transition-all duration-500 flex flex-col justify-end p-4 ${
           hovered
-            ? "h-1/2 from-white/80 to-transparent bg-white/85"
-            : "h-[25%] from-black/80 to-transparent"
+            ? "h-1/2 bg-white/95 border-t border-neutral-100 shadow-lg"
+            : "h-[30%] bg-gradient-to-t from-black/80 via-black/40 to-transparent"
         }`}
       >
         {/* Tên sản phẩm */}
         <h2
-          className={`text-lg font-bold capitalize text-left transition-colors duration-300 line-clamp-1 wrap-break-word ${
-            hovered ? "text-[#383838]" : "text-[#ebebeb]"
+          className={`text-sm md:text-base font-bold capitalize text-left transition-colors duration-300 line-clamp-1 ${
+            hovered ? "text-neutral-900" : "text-white"
           }`}
         >
           {name}
@@ -106,28 +128,39 @@ export default function ProductCard({
 
         {/* Danh mục */}
         <p
-          className={`text-xs md:text-sm capitalize text-left transition-colors duration-300 line-clamp-1 ${
-            hovered ? "text-[#383838]/80" : "text-[#ebebeb]/80"
+          className={`text-xs capitalize text-left transition-colors duration-300 mt-0.5 line-clamp-1 ${
+            hovered ? "text-neutral-500" : "text-neutral-300"
           }`}
         >
           {category}
         </p>
 
-        {hovered && (
-          <div className="flex flex-wrap mt-2">
-            {/* Giá tiền */}
-            <p className="w-full text-lg md:text-2xl text-right font-semibold text-[#383838]">
-              {numberToVnd(price)}
-            </p>
-            <div className="flex justify-between w-full mt-2">
+        {/* Price and Action Row */}
+        <div className={`transition-all duration-300 ${hovered ? "mt-2 opacity-100" : "mt-0"}`}>
+          {/* Giá tiền */}
+          <p className={`text-sm md:text-base font-semibold text-left transition-colors duration-300 ${
+            hovered ? "text-neutral-900" : "text-[#d4af37]"
+          }`}>
+            {numberToVnd(price)}
+          </p>
+          
+          {/* Quick buttons */}
+          {hovered && (
+            <div className="flex justify-between items-center gap-2 mt-3 animate-fade-in-up">
+              {/* Add to favorites */}
               <button
-                className="size-10 bg-[#ebebeb] flex items-center justify-center shadow"
+                className={`w-10 h-10 flex items-center justify-center rounded-lg border transition-colors shadow-xs hover:shadow-sm cursor-pointer ${
+                  isFav 
+                    ? "bg-red-50 border-red-200 text-red-500" 
+                    : "bg-neutral-50 border-neutral-200 text-neutral-600 hover:bg-neutral-100"
+                }`}
+                onClick={handleToggleFav}
                 aria-label="Add to favorites"
               >
                 <svg
-                  className="w-6 h-6 text-gray-800"
+                  className="w-5 h-5"
                   xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
+                  fill={isFav ? "currentColor" : "none"}
                   viewBox="0 0 24 24"
                 >
                   <path
@@ -139,16 +172,18 @@ export default function ProductCard({
                   />
                 </svg>
               </button>
-              {/* Nút Add to cart */}
+              
+              {/* Add to cart */}
               <button
-                className="flex-1 min-w-35 h-10 text-sm md:text-base text-[#ebebeb] bg-[#383838] shadow hover:brightness-110 transition-all"
+                className="flex-1 h-10 rounded-lg text-xs md:text-sm font-semibold uppercase tracking-wider text-white bg-neutral-950 hover:bg-neutral-800 transition-colors shadow-xs cursor-pointer"
+                onClick={handleAddToCart}
                 aria-label="Add to cart"
               >
-                Add to cart
+                Add to Cart
               </button>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

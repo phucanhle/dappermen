@@ -1,6 +1,5 @@
 "use client";
 import { useEffect } from "react";
-import gsap from "gsap";
 
 interface Props {
   open: boolean;
@@ -21,36 +20,23 @@ export default function SearchBar({
   onOpen,
   inputRef,
 }: Props) {
+  // Focus input when opened
   useEffect(() => {
-    if (inputRef?.current) {
-      if (open) {
-        gsap.to(inputRef.current, {
-          width: "200px",
-          marginLeft: "1rem",
-          marginRight: "1rem",
-          duration: 0.3,
-          ease: "power1.out",
-          onComplete: () => {
-            inputRef.current?.focus();
-          },
-        });
-      } else {
-        gsap.to(inputRef.current, {
-          width: "0px",
-          marginLeft: "0px",
-          marginRight: "0px",
-          duration: 0.3,
-          ease: "power1.in",
-        });
-      }
+    if (open && inputRef?.current) {
+      inputRef.current.focus();
     }
   }, [open, inputRef]);
 
   return (
-    <>
-      <button type="button" onClick={onOpen}>
+    <div className="flex items-center">
+      <button 
+        type="button" 
+        onClick={onOpen}
+        className="p-1 rounded-full text-neutral-600 hover:text-black transition-colors focus:outline-none"
+        aria-label="Open Search"
+      >
         <svg
-          className="w-6 h-6 text-gray-800"
+          className="w-5 h-5"
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
@@ -66,19 +52,28 @@ export default function SearchBar({
       <input
         ref={inputRef}
         value={query}
-        className="outline-none border-b bg-transparent"
+        placeholder="Search apparel..."
+        className={`outline-none border-b border-neutral-300 text-xs md:text-sm bg-transparent transition-all duration-300 ease-out origin-right ${
+          open 
+            ? "w-40 md:w-48 opacity-100 mx-2 scale-x-100 pointer-events-auto" 
+            : "w-0 opacity-0 mx-0 scale-x-0 pointer-events-none"
+        }`}
         onChange={onChange}
         onKeyDown={(e) => {
           if (e.key === "Enter") onSubmit(e);
         }}
       />
+      
       <button
         type="button"
-        className={`transition-all ${open ? "block mx-2" : "hidden"}`}
-        onClick={onClose} // 👈 gắn hàm đóng
+        className={`transition-all duration-200 p-1 rounded-full text-neutral-400 hover:text-neutral-700 focus:outline-none ${
+          open ? "block" : "hidden"
+        }`}
+        onClick={onClose}
+        aria-label="Close Search"
       >
         <svg
-          className="w-6 h-6 text-gray-800"
+          className="w-4 h-4"
           fill="none"
           stroke="currentColor"
           strokeWidth={2}
@@ -91,6 +86,6 @@ export default function SearchBar({
           />
         </svg>
       </button>
-    </>
+    </div>
   );
 }

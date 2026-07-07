@@ -63,7 +63,7 @@ export async function getProductSizeQty(
     if (!json.success) throw new Error("Failed to fetch sizes");
 
     const qty = json.data.find((s: ProductSize) => s.size === size);
-    return qty.stock;
+    return qty ? qty.stock : 0;
   } catch (error) {
     console.error("Error fetching product sizes:", error);
     throw error;

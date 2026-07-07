@@ -25,7 +25,7 @@ export default function UserMenu() {
 
   if (status === "loading") {
     return (
-      <span className="bg-[#EBEBEB] p-2 relative">
+      <span className="block p-2.5 rounded-full hover:bg-neutral-100 text-neutral-600 transition-colors relative">
         <svg
           className="w-5 h-5 animate-spin"
           xmlns="http://www.w3.org/2000/svg"
@@ -52,12 +52,16 @@ export default function UserMenu() {
 
   if (!session?.user) {
     return (
-      <Link href="/login" className="bg-[#EBEBEB] p-2">
+      <Link 
+        href="/login" 
+        className="block p-2.5 rounded-full hover:bg-neutral-100 text-neutral-700 hover:text-neutral-900 transition-all duration-200"
+        aria-label="Sign In"
+      >
         <svg
-          className="w-6 h-6 text-gray-800"
+          className="w-6 h-6"
           fill="none"
           stroke="currentColor"
-          strokeWidth={2}
+          strokeWidth={1.75}
           viewBox="0 0 24 24"
           aria-hidden="true"
         >

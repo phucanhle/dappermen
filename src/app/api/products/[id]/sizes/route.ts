@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabaseClient";
+import { supabase, isSupabaseConfigured } from "@/lib/supabaseClient";
+import { mockProductSizes } from "@/data/mockData";
 
 type RawProductSize = {
   stock: number;
@@ -20,6 +21,19 @@ export async function GET(
       { success: false, message: "Invalid product ID" },
       { status: 400 }
     );
+  }
+
+  if (!isSupabaseConfigured) {
+    const sizes = mockProductSizes[productId] || [
+      { size: "S", stock: 10 },
+      { size: "M", stock: 15 },
+      { size: "L", stock: 12 },
+      { size: "XL", stock: 5 }
+    ];
+    return NextResponse.json({
+      success: true,
+      data: sizes,
+    });
   }
 
   const { data, error } = await supabase
