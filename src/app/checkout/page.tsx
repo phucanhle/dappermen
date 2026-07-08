@@ -106,29 +106,51 @@ export default function CheckoutPage() {
         clearCart();
         router.push("/checkout/success?orderId=" + data.orderId);
       } else {
-        // MoMo payment initiation
+        const loadingToast = toast.loading("Initiating MoMo payment...");
+        
+        // 1. Create order in Database first
+        const createOrderRes = await fetch("/api/orders", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            phone,
+            address,
+            items,
+            paymentMethod: "MOMO",
+          }),
+        });
+
+        const orderData = await createOrderRes.json();
+        if (!createOrderRes.ok || !orderData.orderId) {
+          toast.dismiss(loadingToast);
+          throw new Error(orderData.error || "Failed to create order. Please try again.");
+        }
+
+        const actualOrderId = orderData.orderId;
+
+        // 2. MoMo payment initiation using actualOrderId
         const momoInitRes = await fetch("/api/checkout/momo", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             amount: total,
-            orderId: "ORD-" + Math.floor(100000 + Math.random() * 900000),
+            orderId: actualOrderId,
           }),
         });
 
         const momoData = await momoInitRes.json();
+        toast.dismiss(loadingToast);
+
         if (!momoInitRes.ok || !momoData.payUrl) {
           throw new Error(momoData.error || "MoMo payment initialization failed");
         }
 
-        // Cache shipping details to localStorage before redirecting so callback route can save it
-        localStorage.setItem(
-          "dappermen_checkout_cache",
-          JSON.stringify({ name, phone, address, items })
-        );
-
-        toast.loading("Redirecting to MoMo payment portal...");
-        router.push(momoData.payUrl);
+        if (momoData.payUrl.startsWith("http://") || momoData.payUrl.startsWith("https://")) {
+          window.location.href = momoData.payUrl;
+        } else {
+          router.push(momoData.payUrl);
+        }
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to process checkout");

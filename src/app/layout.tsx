@@ -10,6 +10,8 @@ import AuthProvider from "@/components/AuthProvider";
 
 import { siteMetadata } from "@/lib/seo";
 
+import ClientLayout from "@/components/ClientLayout";
+
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-serif",
@@ -41,9 +43,7 @@ export default function RootLayout({
       </head>
       <body>
         <AuthProvider>
-          <Header />
-          <main className="mt-16">{children}</main>
-          <Footer />
+          <ClientLayout>{children}</ClientLayout>
           <Toaster position="top-right" />
         </AuthProvider>
       </body>

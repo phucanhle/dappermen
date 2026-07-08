@@ -24,42 +24,26 @@ function MomoCallbackContent() {
     if (resultCode === "0" && orderId) {
       const processOrder = async () => {
         try {
-          const cached = localStorage.getItem("dappermen_checkout_cache");
-          if (!cached) {
-            console.warn("No cached checkout data found. Directing to histories.");
-            clearCart();
-            router.push("/user/histories");
-            return;
-          }
-
-          const { name, phone, address, items } = JSON.parse(cached);
-
-          // Submit the order records to database
-          const res = await fetch("/api/orders", {
+          // Confirm payment on backend
+          const res = await fetch("/api/orders/confirm", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              name,
-              phone,
-              address,
-              items,
-              paymentMethod: "MOMO",
-              paymentId: orderId,
+              orderId,
             }),
           });
 
           if (!res.ok) {
             const data = await res.json();
-            throw new Error(data.error || "Failed to save order");
+            throw new Error(data.error || "Failed to confirm payment");
           }
 
-          localStorage.removeItem("dappermen_checkout_cache");
           clearCart();
           toast.success("Payment completed successfully!");
           
           router.push(`/checkout/success?orderId=${orderId}`);
         } catch (err: any) {
-          console.error("Callback order save error:", err);
+          console.error("Callback order confirm error:", err);
           toast.error("Error saving your payment record.");
           router.push("/checkout");
         }

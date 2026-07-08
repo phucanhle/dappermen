@@ -53,6 +53,7 @@ export default function SearchBar({
         ref={inputRef}
         value={query}
         placeholder="Search apparel..."
+        aria-label="Search apparel"
         className={`outline-none border-b border-neutral-300 text-xs md:text-sm bg-transparent transition-all duration-300 ease-out origin-right ${
           open 
             ? "w-40 md:w-48 opacity-100 mx-2 scale-x-100 pointer-events-auto" 

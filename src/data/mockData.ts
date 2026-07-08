@@ -195,13 +195,15 @@ export const mockUsers = [
     id: "1",
     name: "John Doe",
     email: "john@example.com",
-    password: "$2a$12$ZcT7w3Z0M5vM2y2gqXhG.OuS/a76n7cT2Bbe6Yh/uA2L1sVz/Wbvi" // password = 123456
+    password: "$2b$12$ZHBJ4n8pZmG.0a2ARPDcheKMFzcM3hE50ANE9deo9h8K2rTQCCoQG", // password = 123456
+    role: "admin"
   },
   {
     id: "2",
     name: "Lê Phúc Anh",
     email: "lpa@example.com",
-    password: "$2a$12$ZcT7w3Z0M5vM2y2gqXhG.OuS/a76n7cT2Bbe6Yh/uA2L1sVz/Wbvi" // password = 123456
+    password: "$2b$12$ZHBJ4n8pZmG.0a2ARPDcheKMFzcM3hE50ANE9deo9h8K2rTQCCoQG", // password = 123456
+    role: "admin"
   }
 ];
 
@@ -246,3 +248,46 @@ export const runtimeOrders: MockOrder[] = [
     ]
   }
 ];
+
+export interface Review {
+  id: string;
+  product_id: number;
+  user_id: string;
+  user_name: string;
+  rating: number;
+  comment: string;
+  created_at: string;
+}
+
+export const mockReviews: Review[] = [
+  {
+    id: "REV-1",
+    product_id: 1,
+    user_id: "1",
+    user_name: "Ryan",
+    rating: 5,
+    comment: "The pima cotton fabric is exceptionally soft and lightweight. It fits exactly as expected and keeps its shape well after washing.",
+    created_at: "2025-10-12T12:00:00Z"
+  },
+  {
+    id: "REV-2",
+    product_id: 1,
+    user_id: "2",
+    user_name: "Adam",
+    rating: 4,
+    comment: "Very clean stitching and premium feel. Perfect for smart-casual layering.",
+    created_at: "2025-11-04T15:30:00Z"
+  },
+  {
+    id: "REV-3",
+    product_id: 2,
+    user_id: "1",
+    user_name: "John Doe",
+    rating: 5,
+    comment: "Extremely warm and cozy knit. The cable styling looks very premium. High quality merino wool blend.",
+    created_at: "2025-12-01T09:15:00Z"
+  }
+];
+
+export const runtimeReviews: Review[] = [...mockReviews];
+

@@ -20,37 +20,55 @@ export async function GET() {
   }
 
   try {
-    // Try querying orders from Supabase database
-    const { data: dbOrders, error } = await supabaseAdmin
+    // 1. Fetch user orders
+    const { data: dbOrders, error: orderErr } = await supabaseAdmin
       .from("orders")
       .select(`
         id,
         date:created_at,
         status,
-        total,
-        order_items (
-          name,
-          quantity,
-          price
-        )
+        total
       `)
       .eq("user_id", userId)
       .order("created_at", { ascending: false });
 
-    if (error) {
-      console.warn("Supabase orders table error, falling back to local memory:", error.message);
-      // Fallback to in-memory orders if table doesn't exist
+    if (orderErr) {
+      console.warn("Supabase orders table error, falling back to local memory:", orderErr.message);
       const orders = runtimeOrders.filter((o) => o.user_id === userId);
       return NextResponse.json({ histories: orders });
     }
 
-    const formattedOrders = (dbOrders || []).map((o: any) => ({
-      id: o.id,
-      date: o.date,
-      status: o.status,
-      total: o.total,
-      items: o.order_items || [],
-    }));
+    // 2. Fetch order items for retrieved orders
+    const orderIds = (dbOrders || []).map((o) => o.id);
+    let itemsList: any[] = [];
+    if (orderIds.length > 0) {
+      const { data: dbItems, error: itemsErr } = await supabaseAdmin
+        .from("order_items")
+        .select("order_id, name, quantity, price")
+        .in("order_id", orderIds);
+      if (!itemsErr && dbItems) {
+        itemsList = dbItems;
+      }
+    }
+
+    // 3. Map items to their respective orders
+    const formattedOrders = (dbOrders || []).map((o: any) => {
+      const oItems = itemsList
+        .filter((item: any) => item.order_id === o.id)
+        .map((item: any) => ({
+          name: item.name,
+          quantity: item.quantity,
+          price: item.price,
+        }));
+
+      return {
+        id: o.id,
+        date: o.date,
+        status: o.status,
+        total: o.total,
+        items: oItems,
+      };
+    });
 
     return NextResponse.json({ histories: formattedOrders });
   } catch (err) {

@@ -33,8 +33,9 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
     <div className="space-y-4">
       {/* Province */}
       <div>
-        <label className="block mb-1 font-medium text-sm">Province / City</label>
+        <label htmlFor="province-select" className="block mb-1 font-medium text-sm">Province / City</label>
         <select
+          id="province-select"
           value={value.province}
           onChange={(e) =>
             onChange({
@@ -56,8 +57,9 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
 
       {/* Ward */}
       <div>
-        <label className="block mb-1 font-medium text-sm">Ward</label>
+        <label htmlFor="ward-select" className="block mb-1 font-medium text-sm">Ward</label>
         <select
+          id="ward-select"
           value={value.ward}
           onChange={(e) => onChange({ ...value, ward: e.target.value })}
           className="w-full p-2 border border-gray-400 rounded disabled:opacity-50"
@@ -76,8 +78,9 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
 
       {/* Street */}
       <div>
-        <label className="block mb-1 font-medium text-sm">Street</label>
+        <label htmlFor="street-input" className="block mb-1 font-medium text-sm">Street</label>
         <input
+          id="street-input"
           type="text"
           value={value.street}
           onChange={(e) => onChange({ ...value, street: e.target.value })}
@@ -87,8 +90,9 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
 
       {/* Details */}
       <div>
-        <label className="block mb-1 font-medium text-sm">House No. / Additional Details</label>
+        <label htmlFor="details-input" className="block mb-1 font-medium text-sm">House No. / Additional Details</label>
         <input
+          id="details-input"
           type="text"
           value={value.details}
           onChange={(e) => onChange({ ...value, details: e.target.value })}

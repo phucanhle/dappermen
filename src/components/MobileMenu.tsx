@@ -57,9 +57,12 @@ export default function MobileMenu(
             </svg>
           </Link>
         </li>
-        <li className="w-full flex flex-col items-center gap-2">
-          <h1>Search</h1>
+        <li className="w-full flex flex-col items-start gap-2 px-4">
+          <label htmlFor="mobile-search" className="font-semibold text-gray-800">
+            Search
+          </label>
           <input
+            id="mobile-search"
             type="text"
             placeholder="Type product name..."
             value={query}

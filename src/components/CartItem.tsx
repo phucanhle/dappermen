@@ -74,6 +74,7 @@ export default function CartItem({
                 min={1}
                 max={maxStock}
                 value={quantity}
+                aria-label={`Quantity for ${name}`}
                 className="w-10 text-center bg-transparent border-0 p-0 text-xs font-sans font-semibold text-neutral-800 focus:outline-none"
                 onChange={(e) => onQuantityChange?.(Number(e.target.value))}
                 onBlur={() => {

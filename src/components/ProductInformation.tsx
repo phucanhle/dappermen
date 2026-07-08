@@ -134,6 +134,7 @@ export default function ProductInformation({ product }: { product: Product }) {
             <button
               onClick={handleDecrease}
               disabled={quantity <= 1}
+              aria-label="Decrease quantity"
               className="w-8 h-8 flex items-center justify-center text-sm font-sans font-bold text-neutral-400 hover:text-black disabled:opacity-30 cursor-pointer"
             >
               –
@@ -144,6 +145,7 @@ export default function ProductInformation({ product }: { product: Product }) {
             <button
               onClick={handleIncrease}
               disabled={quantity >= currentStock}
+              aria-label="Increase quantity"
               className="w-8 h-8 flex items-center justify-center text-sm font-sans font-bold text-neutral-400 hover:text-black disabled:opacity-30 cursor-pointer"
             >
               +

@@ -66,7 +66,7 @@ export default function ProductDetailPage() {
       <ProductOverview product={product} />
 
       {/* Reviews Feedback */}
-      <ProductReviews />
+      <ProductReviews productId={product.id} />
 
       {/* Related curated items */}
       <ProductRelated relatedProducts={relatedProducts} />

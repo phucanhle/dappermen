@@ -25,11 +25,13 @@ export async function POST(req: Request) {
   const tax = 40000;  // 40k VAT
   const total = subtotal + delivery + tax;
 
+  const initialStatus = paymentMethod === "MOMO" ? "Chờ thanh toán" : "Đang xử lý";
+
   const orderData = {
     id: orderId,
     user_id: userId,
     date: new Date().toISOString(),
-    status: "Đang xử lý",
+    status: initialStatus,
     total,
     payment_method: paymentMethod || "COD",
     shipping_name: name,
@@ -52,7 +54,7 @@ export async function POST(req: Request) {
         {
           id: orderId,
           user_id: userId,
-          status: "Đang xử lý",
+          status: initialStatus,
           total,
           payment_method: paymentMethod || "COD",
           shipping_name: name,
