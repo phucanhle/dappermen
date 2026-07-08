@@ -29,6 +29,49 @@ export default function ProductInformation({ product }: { product: Product }) {
       });
   }, [product.id]);
 
+  useEffect(() => {
+    if (typeof navigator !== "undefined" && "modelContext" in navigator) {
+      const modelContext = (navigator as any).modelContext;
+      if (modelContext && typeof modelContext.registerTool === "function") {
+        try {
+          modelContext.registerTool({
+            name: "addToCart",
+            description: `Add "${product.name}" to the shopping cart`,
+            inputSchema: {
+              type: "object",
+              properties: {
+                size: { type: "string", enum: sizes.length > 0 ? sizes.map(s => s.size) : ["S", "M", "L", "XL"], description: "Size of the apparel" },
+                quantity: { type: "integer", minimum: 1, description: "Quantity to add" }
+              },
+              required: ["size", "quantity"]
+            },
+            execute: async ({ size, quantity }: { size: string; quantity: number }) => {
+              const stock = sizes.find((s) => s.size === size)?.stock || 0;
+              if (stock === 0) {
+                return { success: false, error: "Size is out of stock" };
+              }
+              if (quantity > stock) {
+                return { success: false, error: `Requested quantity exceeds available stock of ${stock}` };
+              }
+              addItem({
+                id: product.id,
+                name: product.name,
+                image_src: product.image_src || "",
+                price: product.price,
+                size: size,
+                quantity: quantity,
+              });
+              toast.success(`Added "${product.name}" (Size ${size}) to cart!`);
+              return { success: true, message: `Successfully added ${quantity} of size ${size} to cart` };
+            }
+          });
+        } catch (err) {
+          console.error("Failed to register addToCart WebMCP tool:", err);
+        }
+      }
+    }
+  }, [product, sizes, addItem]);
+
   const currentStock = sizes.find((s) => s.size === selectedSize)?.stock || 0;
 
   const handleIncrease = () => {
@@ -91,9 +134,14 @@ export default function ProductInformation({ product }: { product: Product }) {
         </div>
 
         {isLoading ? (
-          <p className="text-xs text-neutral-400 italic font-sans py-2">
-            Loading sizes...
-          </p>
+          <div className="flex gap-2.5 flex-wrap">
+            {["S", "M", "L", "XL"].map((size) => (
+              <div
+                key={size}
+                className="w-11 h-11 bg-neutral-100 animate-pulse rounded-lg border border-neutral-100"
+              />
+            ))}
+          </div>
         ) : sizes.length === 0 ? (
           <p className="text-xs text-red-500 italic font-sans py-2">
             Sizes not available at the moment.

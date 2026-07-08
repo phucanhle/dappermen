@@ -86,7 +86,18 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
         {/* Left: Reviews List */}
         <div className="lg:col-span-7 space-y-6">
           {loading ? (
-            <p className="text-sm text-neutral-400">Loading reviews...</p>
+            <div className="space-y-6">
+              {[1, 2].map((idx) => (
+                <div key={idx} className="space-y-3 animate-pulse pt-5 first:pt-0 pb-2">
+                  <div className="flex justify-between items-center">
+                    <div className="h-4 bg-neutral-100 rounded w-1/4" />
+                    <div className="h-3 bg-neutral-100 rounded w-1/6" />
+                  </div>
+                  <div className="h-4 bg-neutral-100 rounded w-full" />
+                  <div className="h-4 bg-neutral-100 rounded w-2/3" />
+                </div>
+              ))}
+            </div>
           ) : reviews.length === 0 ? (
             <p className="text-sm text-neutral-400 italic">Chưa có đánh giá nào cho sản phẩm này.</p>
           ) : (

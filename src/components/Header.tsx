@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Logo from "./Logo";
@@ -18,6 +18,33 @@ export default function Header() {
   const totalItems = useCartStore((state) =>
     state.items.reduce((acc, item) => acc + item.quantity, 0)
   );
+
+  useEffect(() => {
+    if (typeof navigator !== "undefined" && "modelContext" in navigator) {
+      const modelContext = (navigator as any).modelContext;
+      if (modelContext && typeof modelContext.registerTool === "function") {
+        try {
+          modelContext.registerTool({
+            name: "searchProducts",
+            description: "Search Dappermen apparel catalog by keyword",
+            inputSchema: {
+              type: "object",
+              properties: {
+                query: { type: "string", description: "Search query or category name" }
+              },
+              required: ["query"]
+            },
+            execute: async ({ query }: { query: string }) => {
+              router.push(`/search?query=${encodeURIComponent(query)}`);
+              return { success: true, query };
+            }
+          });
+        } catch (err) {
+          console.error("Failed to register searchProducts WebMCP tool:", err);
+        }
+      }
+    }
+  }, [router]);
 
   const handleSearching = (e: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(e.target.value);
