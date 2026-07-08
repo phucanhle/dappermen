@@ -1,0 +1,14 @@
+# Dappermen
+
+> Dappermen is a premium men's apparel e-commerce platform offering designed menswear, curated style lookbooks, and high-quality clothing.
+
+## Core Pages
+
+- [/](https://dappermen.vercel.app/): Homepage showcasing new season arrivals, current promotions, and category filters.
+- [/products/details/[id]](https://dappermen.vercel.app/products/details/[id]): Product detail pages displaying descriptions, specifications, care guides, size guides, real-time stock levels, and customer reviews.
+- [/cart](https://dappermen.vercel.app/cart): Interactive shopping cart overview where items can be reviewed, adjusted (quantities), or removed.
+- [/checkout](https://dappermen.vercel.app/checkout): Checkout page supporting shipping addresses and integrated payment gateways (e.g., Momo, COD).
+- [/favourites](https://dappermen.vercel.app/favourites): Saved products catalog.
+- [/login](https://dappermen.vercel.app/login): Customer account authentication and registration.
+- [/user/profile](https://dappermen.vercel.app/user/profile): Account details management.
+- [/user/histories](https://dappermen.vercel.app/user/histories): Customer order histories with current order processing statuses.
