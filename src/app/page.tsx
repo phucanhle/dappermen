@@ -1,7 +1,30 @@
-"use client";
+// app/page.tsx
+import type { Metadata } from "next";
 import Carousels from "@/components/Carousels";
-import { Title } from "@/components/UI/Title";
 import ProductWrapper from "@/components/ProductWrapper";
+
+export const metadata: Metadata = {
+  title: "Dappermen | Thời trang nam cao cấp & Lookbook",
+  description:
+    "Khám phá bộ sưu tập thời trang nam thiết kế cao cấp và lookbook nam lịch lãm tại Dappermen. Mua sắm áo sơ mi, quần tây âu, giày da và phụ kiện nam cao cấp tại Hà Nội & TPHCM.",
+  alternates: {
+    canonical: "https://dappermen.vercel.app",
+  },
+  openGraph: {
+    title: "Dappermen | Thời trang nam cao cấp & Lookbook",
+    description:
+      "Khám phá bộ sưu tập thời trang nam thiết kế cao cấp và lookbook nam lịch lãm tại Dappermen. Mua sắm áo sơ mi, quần tây âu, giày da và phụ kiện nam cao cấp.",
+    url: "https://dappermen.vercel.app",
+    images: [
+      {
+        url: "/Carousel1.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Dappermen - Thời trang nam cao cấp & Lookbook",
+      },
+    ],
+  },
+};
 
 export default function Home() {
   return (

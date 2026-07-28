@@ -40,19 +40,27 @@ export const siteMetadata: Metadata = {
 
   openGraph: {
     type: "website",
+    locale: "vi_VN",
     url: "https://dappermen.vercel.app/",
     siteName: "Dappermen",
+    title: "Dappermen | Thời trang nam cao cấp & Lookbook",
+    description:
+      "Khám phá bộ sưu tập thời trang nam thiết kế cao cấp và lookbook nam lịch lãm tại Dappermen. Mua sắm áo sơ mi, quần tây âu, giày da và phụ kiện nam cao cấp tại Hà Nội & TPHCM.",
     images: [
       {
-        url: "/logo.png",
+        url: "/Carousel1.jpg",
         width: 1200,
         height: 630,
-        alt: "Dappermen - Thời trang nam cao cấp",
+        alt: "Dappermen - Thời trang nam cao cấp & Lookbook",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
+    title: "Dappermen | Thời trang nam cao cấp & Lookbook",
+    description:
+      "Khám phá bộ sưu tập thời trang nam thiết kế cao cấp và lookbook nam lịch lãm tại Dappermen. Mua sắm áo sơ mi, quần tây âu, giày da và phụ kiện nam cao cấp.",
+    images: ["/Carousel1.jpg"],
   },
 };
