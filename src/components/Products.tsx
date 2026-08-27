@@ -63,7 +63,7 @@ export default function Products({
           {index === 4 && (
             <div className="col-span-1 sm:col-span-2 bg-[#ede9e0]/60 border border-neutral-300/40 rounded-xl p-8 flex flex-col justify-between min-h-[240px] shadow-xs select-none">
               <div>
-                <span className="text-[10px] tracking-widest text-[#d4af37] font-semibold uppercase">
+                <span className="text-[10px] tracking-widest text-brand-gold font-semibold uppercase">
                   Editorial Lookbook
                 </span>
                 <blockquote className="font-serif text-lg md:text-xl font-light text-neutral-800 leading-relaxed mt-4 italic">

@@ -101,7 +101,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full p-3 bg-black text-white hover:bg-gray-800 transition rounded cursor-pointer"
+            className="w-full py-3 bg-neutral-950 text-white hover:bg-neutral-800 font-sans font-semibold text-xs uppercase tracking-widest transition-all rounded-lg cursor-pointer disabled:opacity-40"
           >
             {loading ? "Processing..." : isSignUp ? "Sign Up" : "Login"}
           </button>
@@ -109,14 +109,14 @@ export default function LoginPage() {
 
         <button
           onClick={() => setIsSignUp((prev) => !prev)}
-          className="text-sm text-indigo-600 hover:underline cursor-pointer"
+          className="text-sm text-brand-gold hover:underline cursor-pointer"
         >
           {isSignUp
             ? "Already have an account? Login"
             : "Don't have an account? Sign up"}
         </button>
 
-        <button className="w-full max-w-sm p-3 mt-1 border border-gray-300 rounded flex items-center justify-center gap-2 cursor-pointer hover:bg-gray-100 transition">
+        <button className="w-full max-w-sm p-3 mt-1 border border-border-default rounded-lg flex items-center justify-center gap-2 cursor-pointer hover:bg-surface-secondary transition">
           <Image
             width="24"
             height="24"

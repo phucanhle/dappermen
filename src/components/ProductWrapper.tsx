@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Products from "./Products";
 import ProductFilter from "./ProductFilter";
+import Button from "@/components/UI/Button";
 import { fetchProducts } from "@/services/productService";
 import Product from "@/types/Products";
 
@@ -64,7 +65,7 @@ export default function ProductWrapper() {
       />
 
       {isLoading ? (
-        <p className="text-gray-500 my-4">Loading products...</p>
+        <p className="text-neutral-500 my-4">Loading products...</p>
       ) : (
         <Products
           products={products}
@@ -74,16 +75,13 @@ export default function ProductWrapper() {
       )}
 
       {!isLoading && hasMore && (
-        <button
-          onClick={handleLoadMore}
-          className="my-4 px-10 py-2 bg-gray-800 text-white cursor-pointer hover:bg-gray-700 transition-all"
-        >
+        <Button variant="secondary" size="md" onClick={handleLoadMore}>
           See more
-        </button>
+        </Button>
       )}
 
       {!isLoading && !hasMore && products.length > 0 && (
-        <p className="text-sm text-gray-400 my-4">All products displayed.</p>
+        <p className="text-sm text-neutral-400 my-4">All products displayed.</p>
       )}
     </div>
   );

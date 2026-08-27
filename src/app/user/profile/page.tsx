@@ -60,7 +60,7 @@ export default function UserProfilePage() {
     return (
       <div className="max-w-3xl mx-auto min-h-screen mt-10 p-6">
         <LoadingSpin />
-        <p className="text-center text-gray-500">Loading ...</p>
+        <p className="text-center text-neutral-500">Loading ...</p>
       </div>
     );
 
@@ -71,7 +71,7 @@ export default function UserProfilePage() {
         <Title>Unauthorized</Title>
         <p>
           You need to be logged in to view this page. Please{" "}
-          <Link href="/login" className="underline hover:text-blue-800">
+          <Link href="/login" className="underline hover:text-brand-gold">
             log in
           </Link>{" "}
           first.
@@ -106,14 +106,14 @@ export default function UserProfilePage() {
 
       <form onSubmit={handleSubmit} className="space-y-6">
         <div>
-          <label className="block text-sm font-medium mb-1">Tên:</label>
+          <label className="block mb-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-500">Tên:</label>
           <input
             type="text"
             value={name}
             onChange={(e) =>
               setUser({ name: e.target.value, size, shippingAddress })
             }
-            className="w-full p-2 border border-gray-300 rounded"
+            className="w-full px-3 py-2.5 border border-border-default rounded-lg text-sm bg-surface-secondary/30 font-sans focus:outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-200 transition-colors"
             required
           />
         </div>

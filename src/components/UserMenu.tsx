@@ -107,13 +107,13 @@ export default function UserMenu() {
       </button>
 
       {isMenuOpen && (
-        <div className="relative md:absolute right-0 mt-2 w-full md:w-48 md:bg-gray-50 md:border md:border-gray-100 rounded md:shadow-lg z-50">
+        <div className="relative md:absolute right-0 mt-2 w-full md:w-48 md:bg-surface-elevated md:border md:border-border-default rounded-xl md:shadow-lg z-50">
           <ul>
             {(session?.user as any)?.role === "admin" && (
               <li>
                 <Link
                   href="/admin"
-                  className="block px-4 text-right text-sm py-2 hover:bg-gray-100 font-semibold text-[#d4af37]"
+                  className="block px-4 text-right text-sm py-2 hover:bg-surface-secondary font-semibold text-brand-gold"
                   onClick={() => setUserMenuOpen(false)}
                 >
                   Admin Dashboard
@@ -123,7 +123,7 @@ export default function UserMenu() {
             <li>
               <Link
                 href="/user/profile"
-                className="block px-4 text-right text-sm py-2 hover:bg-gray-100"
+                className="block px-4 text-right text-sm py-2 hover:bg-surface-secondary"
                 onClick={() => setUserMenuOpen(false)}
               >
                 Edit Profile
@@ -132,7 +132,7 @@ export default function UserMenu() {
             <li>
               <Link
                 href="/user/histories"
-                className="block px-4 text-right text-sm py-2 hover:bg-gray-100"
+                className="block px-4 text-right text-sm py-2 hover:bg-surface-secondary"
                 onClick={() => setUserMenuOpen(false)}
               >
                 Order History
@@ -210,12 +210,12 @@ export function UserMenuMobile({
       <li>
         <Link
           href="/login"
-          className="flex items-center justify-between p-4 gap-4 bg-gray-50 active:scale-[0.98]"
+          className="flex items-center justify-between p-4 gap-4 bg-surface-secondary active:scale-[0.98]"
           onClick={() => setMenuOpen(false)}
         >
           <span className="font-medium">Login</span>
           <svg
-            className="w-6 h-6 text-gray-800"
+            className="w-6 h-6 text-neutral-800"
             fill="none"
             stroke="currentColor"
             strokeWidth={2}
@@ -261,13 +261,13 @@ export function UserMenuMobile({
       </button>
 
       {isMenuOpen && (
-        <div className="relative md:absolute right-0 mt-2 w-full md:w-48 md:bg-gray-50 md:border md:border-gray-100 rounded md:shadow-lg z-50">
+        <div className="relative md:absolute right-0 mt-2 w-full md:w-48 md:bg-surface-elevated md:border md:border-border-default rounded-xl md:shadow-lg z-50">
           <ul>
             {(session?.user as any)?.role === "admin" && (
               <li>
                 <Link
                   href="/admin"
-                  className="block px-4 text-right py-2 hover:bg-gray-100 font-semibold text-[#d4af37]"
+                  className="block px-4 text-right py-2 hover:bg-surface-secondary font-semibold text-brand-gold"
                   onClick={() => setMenuOpen(false)}
                 >
                   Admin Dashboard
@@ -277,7 +277,7 @@ export function UserMenuMobile({
             <li>
               <Link
                 href="/user/profile"
-                className="block px-4 text-right py-2 hover:bg-gray-100"
+                className="block px-4 text-right py-2 hover:bg-surface-secondary"
                 onClick={() => setMenuOpen(false)}
               >
                 Edit Profile
@@ -286,7 +286,7 @@ export function UserMenuMobile({
             <li>
               <Link
                 href="/user/histories"
-                className="block px-4 text-right py-2 hover:bg-gray-100"
+                className="block px-4 text-right py-2 hover:bg-surface-secondary"
                 onClick={() => setMenuOpen(false)}
               >
                 Order History

@@ -12,7 +12,7 @@ function OrderSuccessContent() {
   return (
     <div className="max-w-xl mx-auto px-4 py-20 min-h-screen flex flex-col justify-center items-center font-sans animate-fade-in text-center select-none">
       {/* Golden Success Check Circle */}
-      <div className="w-16 h-16 bg-[#d4af37]/10 rounded-full flex items-center justify-center text-[#d4af37] mb-6 border border-[#d4af37]/20 shadow-xs">
+      <div className="w-16 h-16 bg-brand-gold/10 rounded-full flex items-center justify-center text-brand-gold mb-6 border border-brand-gold/20 shadow-xs">
         <svg
           className="w-8 h-8 animate-fade-in"
           fill="none"

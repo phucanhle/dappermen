@@ -9,7 +9,7 @@ export default function Favourites() {
   const favouriteProducts = useFavouritesStore((state) => state.items);
 
   return (
-    <div className="w-full max-w-[1300px] mx-auto p-4 min-h-[60vh] mt-24">
+    <div className="w-full max-w-7xl mx-auto p-4 min-h-[60vh]">
       <Promotion />
       <h1 className="text-2xl font-bold mt-10 mb-4 text-neutral-800">Favourites</h1>
 

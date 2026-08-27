@@ -139,7 +139,7 @@ export default function ProductCard(props: product) {
         <div className={`transition-all duration-300 ${hovered ? "mt-2 opacity-100" : "mt-0"}`}>
           {/* Giá tiền */}
           <p className={`text-sm md:text-base font-semibold text-left transition-colors duration-300 ${
-            hovered ? "text-neutral-900" : "text-[#d4af37]"
+            hovered ? "text-neutral-900" : "text-brand-gold"
           }`}>
             {numberToVnd(price)}
           </p>

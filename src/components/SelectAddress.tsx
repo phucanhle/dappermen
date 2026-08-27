@@ -33,7 +33,7 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
     <div className="space-y-4">
       {/* Province */}
       <div>
-        <label htmlFor="province-select" className="block mb-1 font-medium text-sm">Province / City</label>
+        <label htmlFor="province-select" className="block mb-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-500">Province / City</label>
         <select
           id="province-select"
           value={value.province}
@@ -44,7 +44,7 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
               ward: "", 
             })
           }
-          className="w-full p-2 border border-gray-400 rounded"
+          className="w-full px-3 py-2.5 border border-border-default rounded-lg text-sm bg-surface-secondary/30 font-sans focus:outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-200 transition-colors cursor-pointer"
         >
           <option value="">-- Select a province --</option>
           {data.map((item) => (
@@ -57,12 +57,12 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
 
       {/* Ward */}
       <div>
-        <label htmlFor="ward-select" className="block mb-1 font-medium text-sm">Ward</label>
+        <label htmlFor="ward-select" className="block mb-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-500">Ward</label>
         <select
           id="ward-select"
           value={value.ward}
           onChange={(e) => onChange({ ...value, ward: e.target.value })}
-          className="w-full p-2 border border-gray-400 rounded disabled:opacity-50"
+          className="w-full px-3 py-2.5 border border-border-default rounded-lg text-sm bg-surface-secondary/30 font-sans focus:outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-200 transition-colors cursor-pointer disabled:opacity-50"
           disabled={!selectedProvince}
         >
           <option value="">
@@ -78,25 +78,25 @@ export default function AddressForm({ value, onChange }: SelectAddressProps) {
 
       {/* Street */}
       <div>
-        <label htmlFor="street-input" className="block mb-1 font-medium text-sm">Street</label>
+        <label htmlFor="street-input" className="block mb-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-500">Street</label>
         <input
           id="street-input"
           type="text"
           value={value.street}
           onChange={(e) => onChange({ ...value, street: e.target.value })}
-          className="w-full p-2 border border-gray-400 rounded"
+          className="w-full px-3 py-2.5 border border-border-default rounded-lg text-sm bg-surface-secondary/30 font-sans focus:outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-200 transition-colors"
         />
       </div>
 
       {/* Details */}
       <div>
-        <label htmlFor="details-input" className="block mb-1 font-medium text-sm">House No. / Additional Details</label>
+        <label htmlFor="details-input" className="block mb-1.5 text-xs font-semibold uppercase tracking-wider text-neutral-500">House No. / Additional Details</label>
         <input
           id="details-input"
           type="text"
           value={value.details}
           onChange={(e) => onChange({ ...value, details: e.target.value })}
-          className="w-full p-2 border border-gray-400 rounded"
+          className="w-full px-3 py-2.5 border border-border-default rounded-lg text-sm bg-surface-secondary/30 font-sans focus:outline-none focus:border-neutral-500 focus:ring-1 focus:ring-neutral-200 transition-colors"
         />
       </div>
     </div>

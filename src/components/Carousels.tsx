@@ -36,7 +36,7 @@ export default function Carousels() {
   if (images.length === 0) return <p>No images</p>;
 
   return (
-    <section className="relative w-full max-w-7xl mx-auto overflow-hidden rounded-2xl shadow-premium mt-6">
+    <section className="relative w-full overflow-hidden shadow-lg">
       
       {/* Hình ảnh hiển thị */}
       <div
@@ -57,7 +57,7 @@ export default function Carousels() {
             />
             {/* Elegant overlay text */}
             <div className="absolute inset-0 bg-linear-to-r from-black/60 to-black/20 flex flex-col justify-center px-8 md:px-20 text-white">
-              <span className="text-xs md:text-sm font-semibold tracking-widest text-[#d4af37] uppercase mb-2 animate-fade-in">
+              <span className="text-xs md:text-sm font-semibold tracking-widest text-brand-gold uppercase mb-2 animate-fade-in">
                 New Season Arrival
               </span>
               <h2 className="text-2xl md:text-5xl font-bold max-w-md md:max-w-xl leading-tight mb-4 drop-shadow-md">
@@ -68,7 +68,7 @@ export default function Carousels() {
               </p>
               <div>
                 <button 
-                  className="px-6 py-2.5 bg-white text-neutral-900 font-semibold text-xs md:text-sm tracking-wider uppercase hover:bg-[#d4af37] hover:text-white transition-all duration-300 rounded-xs shadow-md"
+                  className="px-6 py-2.5 bg-white text-neutral-900 font-semibold text-xs md:text-sm tracking-wider uppercase hover:bg-brand-gold hover:text-white transition-all duration-300 rounded-lg shadow-md"
                   onClick={() => {
                     const el = document.getElementById("product-filter");
                     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -111,7 +111,7 @@ export default function Carousels() {
             aria-label={`Go to slide ${index + 1}`}
             className={`transition-all duration-300 rounded-full ${
               currentIndex === index
-                ? "w-8 h-2 bg-[#d4af37]"
+                ? "w-8 h-2 bg-brand-gold"
                 : "w-2 h-2 bg-white/50 hover:bg-white"
             }`}
           ></button>

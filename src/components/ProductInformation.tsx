@@ -109,7 +109,7 @@ export default function ProductInformation({ product }: { product: Product }) {
     <div className="flex-1 w-full flex flex-col gap-6 bg-transparent p-0">
       {/* Product Category Label */}
       <div>
-        <span className="text-[10px] tracking-widest text-[#d4af37] font-semibold uppercase font-sans">
+        <span className="text-[10px] tracking-widest text-brand-gold font-semibold uppercase font-sans">
           {product.category || "Collection"}
         </span>
         <h1 className="font-serif text-3xl md:text-4xl font-normal text-neutral-900 tracking-tight leading-snug mt-1">

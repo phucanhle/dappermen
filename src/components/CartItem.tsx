@@ -32,10 +32,10 @@ export default function CartItem({
   }, [id, size]);
 
   return (
-    <div className="flex flex-row items-center justify-between border-b border-[#EAE7E2]/70 py-6 last:border-b-0 w-full gap-4 animate-fade-in">
+    <div className="flex flex-row items-center justify-between border-b border-border-subtle/70 py-6 last:border-b-0 w-full gap-4 animate-fade-in">
       <div className="flex items-center flex-1">
         {/* Sleek, proportional image container */}
-        <div className="w-20 h-24 sm:w-24 sm:h-30 relative overflow-hidden rounded-lg border border-[#EAE7E2]/60 bg-neutral-50 flex-shrink-0">
+        <div className="w-20 h-24 sm:w-24 sm:h-30 relative overflow-hidden rounded-lg border border-border-subtle/60 bg-neutral-50 flex-shrink-0">
           <Image
             src={imageUrl}
             alt={name}
@@ -51,7 +51,7 @@ export default function CartItem({
           <div>
             <Link
               href={`/products/details/${id}`}
-              className="font-serif text-base font-normal text-neutral-900 hover:text-[#d4af37] transition-colors leading-tight"
+              className="font-serif text-base font-normal text-neutral-900 hover:text-brand-gold transition-colors leading-tight"
             >
               {name}
             </Link>
@@ -65,7 +65,7 @@ export default function CartItem({
               {(price * quantity).toLocaleString()} VND
             </span>
             
-            <div className="flex items-center gap-1.5 border border-[#EAE7E2] rounded px-2 py-0.5 bg-[#FAF8F5]">
+            <div className="flex items-center gap-1.5 border border-border-subtle rounded-lg px-2 py-0.5 bg-surface-primary">
               <span className="text-[10px] text-neutral-400 font-sans font-semibold uppercase tracking-wider">
                 Qty:
               </span>

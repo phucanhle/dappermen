@@ -42,7 +42,7 @@ export default function Footer() {
                 {section.items.map((item) => (
                   <li key={item.label}>
                     <Link
-                      className="text-xs sm:text-sm text-neutral-400 hover:text-[#d4af37] transition-colors duration-200"
+                      className="text-xs sm:text-sm text-neutral-400 hover:text-brand-gold transition-colors duration-200"
                       href={item.href}
                       target={item.href.startsWith("http") ? "_blank" : "_self"}
                       rel={

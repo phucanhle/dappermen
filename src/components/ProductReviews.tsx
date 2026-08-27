@@ -110,12 +110,12 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
                         {rev.user_name}
                       </span>
                       {/* Rating Stars */}
-                      <div className="flex text-[#d4af37]">
+                      <div className="flex text-brand-gold">
                         {Array.from({ length: 5 }).map((_, idx) => (
                           <svg
                             key={idx}
                             className={`w-3.5 h-3.5 ${
-                              idx < rev.rating ? "fill-[#d4af37] text-[#d4af37]" : "fill-neutral-200 text-neutral-200"
+                              idx < rev.rating ? "fill-brand-gold text-brand-gold" : "fill-neutral-200 text-neutral-200"
                             }`}
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"
@@ -168,7 +168,7 @@ export default function ProductReviews({ productId }: ProductReviewsProps) {
                         >
                           <svg
                             className={`w-7 h-7 cursor-pointer ${
-                              isGold ? "fill-[#d4af37] text-[#d4af37]" : "fill-neutral-200 text-neutral-200"
+                              isGold ? "fill-brand-gold text-brand-gold" : "fill-neutral-200 text-neutral-200"
                             }`}
                             viewBox="0 0 20 20"
                             xmlns="http://www.w3.org/2000/svg"

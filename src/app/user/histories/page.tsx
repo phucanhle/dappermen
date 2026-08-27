@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { Title } from "@/components/UI/Title";
+import { LoadingSpin } from "@/components/UI/Loading";
 
 interface OrderHistory {
   id: string;
@@ -45,7 +46,7 @@ export default function UserHistoriesPage() {
   }, [session]);
 
   if (status === "loading") {
-    return <p>Loading...</p>;
+    return <LoadingSpin />;
   }
 
   if (!session) {
@@ -53,33 +54,33 @@ export default function UserHistoriesPage() {
   }
 
   return (
-    <div className="max-w-screen-xl mx-auto mt-10 p-4 bg-white rounded">
+    <div className="max-w-7xl mx-auto mt-10 p-4 bg-surface-elevated rounded-xl">
       <Title>Lịch sử đơn hàng</Title>
 
-      {loading && <p>Đang tải...</p>}
+      {loading && <LoadingSpin />}
 
       {!loading && histories.length === 0 && (
-        <p className="text-gray-600">Bạn chưa có đơn hàng nào.</p>
+        <p className="text-neutral-600">Bạn chưa có đơn hàng nào.</p>
       )}
 
       <ul className="space-y-4">
         {histories.map((order) => (
-          <li key={order.id} className="border rounded p-4">
+          <li key={order.id} className="border border-border-default rounded-xl p-6">
             <div className="flex justify-between mb-2">
               <span className="font-semibold">Đơn hàng #{order.id}</span>
-              <span className="text-gray-500">
+              <span className="text-neutral-500">
                 {new Date(order.date).toLocaleDateString("vi-VN")}
               </span>
             </div>
 
             <div className="mb-2">
               <span
-                className={`inline-block px-2 py-1 rounded text-sm font-medium ${
+                className={`inline-block px-2 py-1 rounded-lg text-sm font-medium ${
                   order.status === "Đã giao"
                     ? "bg-green-100 text-green-800"
                     : order.status === "Đang xử lý"
                     ? "bg-yellow-100 text-yellow-800"
-                    : "bg-gray-100 text-gray-700"
+                    : "bg-neutral-100 text-neutral-700"
                 }`}
               >
                 {order.status}
@@ -115,3 +116,4 @@ export default function UserHistoriesPage() {
     </div>
   );
 }
+

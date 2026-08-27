@@ -65,14 +65,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <span className="font-serif text-2xl tracking-widest font-light text-white uppercase">
             Dappermen
           </span>
-          <span className="text-[9px] uppercase tracking-widest text-[#d4af37] font-semibold font-sans">
+          <span className="text-[9px] uppercase tracking-widest text-brand-gold font-semibold font-sans">
             Management System
           </span>
         </div>
 
         {/* User Info Card */}
         <div className="px-6 py-4 border-b border-neutral-900 flex items-center gap-3">
-          <div className="w-8 h-8 rounded-full bg-[#d4af37] flex items-center justify-center text-neutral-950 font-bold text-xs uppercase">
+          <div className="w-8 h-8 rounded-full bg-brand-gold flex items-center justify-center text-neutral-950 font-bold text-xs uppercase">
             {session.user.name?.substring(0, 2) || "AD"}
           </div>
           <div className="flex flex-col min-w-0">
@@ -91,7 +91,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
                 href={item.path}
                 className={`flex items-center gap-3 px-4 py-3 rounded-lg text-xs font-semibold tracking-wider uppercase transition-all duration-150 ${
                   isActive
-                    ? "bg-[#d4af37] text-neutral-950 shadow-sm font-bold"
+                    ? "bg-brand-gold text-neutral-950 shadow-sm font-bold"
                     : "text-neutral-400 hover:bg-neutral-900 hover:text-white"
                 }`}
               >

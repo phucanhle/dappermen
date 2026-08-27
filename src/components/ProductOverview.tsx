@@ -10,7 +10,7 @@ export default function ProductOverview({ product }: { product: Product }) {
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-[#d4af37] mb-3">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold mb-3">
             Description
           </h3>
           <p className="text-sm text-neutral-600 leading-relaxed font-sans">
@@ -18,7 +18,7 @@ export default function ProductOverview({ product }: { product: Product }) {
           </p>
         </div>
         <div>
-          <h3 className="text-xs font-semibold uppercase tracking-widest text-[#d4af37] mb-3">
+          <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold mb-3">
             Specifications & Care
           </h3>
           <ul className="text-xs text-neutral-500 font-sans space-y-2 list-disc list-inside">
@@ -31,7 +31,7 @@ export default function ProductOverview({ product }: { product: Product }) {
       </div>
       
       <div className="border-t border-[#EAE7E2]/60 pt-6">
-        <h3 className="text-xs font-semibold uppercase tracking-widest text-[#d4af37] mb-4">
+        <h3 className="text-xs font-semibold uppercase tracking-widest text-brand-gold mb-4">
           Size Chart Guide
         </h3>
         <SizeGuide />
